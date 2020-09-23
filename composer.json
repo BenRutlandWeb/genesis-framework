@@ -3,6 +3,7 @@
   "description": "WordPress theme framework for elegant development",
   "keywords": [
     "WordPress",
+    "framework",
     "theme"
   ],
   "require": {
