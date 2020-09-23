@@ -1,0 +1,28 @@
+{
+  "name": "brw/genesis-framework",
+  "description": "WordPress theme framework for elegant development",
+  "keywords": [
+    "WordPress",
+    "theme"
+  ],
+  "require": {
+    "illuminate/container": "^8.6",
+    "symfony/finder": "^5.1",
+    "php": "^7.3"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ben Rutland",
+      "email": "info@benrutlandweb.co.uk"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Genesis\\": "src/Genesis/"
+    },
+    "files": [
+      "src/Genesis/Suport/helpers.php"
+    ]
+  }
+}
