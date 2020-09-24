@@ -179,10 +179,6 @@ class Application extends Container implements ApplicationContract
                 \Illuminate\Contracts\Container\Container::class,
                 \Psr\Container\ContainerInterface::class,
             ],
-            'config' => [
-                \Illuminate\Config\Repository::class,
-                \Illuminate\Contracts\Config\Repository::class,
-            ],
             'files'  => [\Genesis\Filesystem\Filesystem::class],
         ] as $key => $aliases) {
             foreach ($aliases as $alias) {
