@@ -24,7 +24,7 @@
       "Genesis\\": "src/Genesis/"
     },
     "files": [
-      "src/Genesis/Suport/helpers.php"
+      "src/Genesis/Support/helpers.php"
     ]
   }
 }
