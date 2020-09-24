@@ -17,6 +17,20 @@ if (!function_exists('app')) {
     }
 }
 
+if (!function_exists('asset')) {
+    /**
+     * Return an instance of the app or an app binding.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    function asset(string $path): string
+    {
+        return get_template_directory_uri() . '/assets/' . $path;
+    }
+}
+
 if (!function_exists('dd')) {
     /**
      * Die and dump.
