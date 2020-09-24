@@ -22,10 +22,10 @@
   ],
   "autoload": {
     "psr-4": {
-      "Genesis\\": "src/Genesis/"
+      "Genesis\\": "src/genesis/"
     },
     "files": [
-      "src/Genesis/Support/helpers.php"
+      "src/genesis/Support/helpers.php"
     ]
   }
 }
