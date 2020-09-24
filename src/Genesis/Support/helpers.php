@@ -22,12 +22,13 @@ if (!function_exists('asset')) {
      * Return an instance of the app or an app binding.
      *
      * @param string $path
+     * @param bool $absolute
      *
      * @return string
      */
-    function asset(string $path): string
+    function asset(string $path, bool $absolute = true): string
     {
-        return get_template_directory_uri() . '/assets/' . $path;
+        return ($absolute ? get_template_directory_uri() : '') . '/assets/' . $path;
     }
 }
 
