@@ -160,7 +160,7 @@ class Application extends Container implements ApplicationContract
      */
     protected function registerBaseServiceProviders(): void
     {
-        #$this->register(new RouteServiceProvider($this));
+        $this->register(new \Genesis\View\ViewServiceProvider($this));
     }
 
     /**
