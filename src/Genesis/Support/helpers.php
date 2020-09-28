@@ -2,6 +2,7 @@
 
 use Genesis\Auth\Auth;
 use Genesis\Foundation\Application;
+use Genesis\Routing\URL;
 
 if (!function_exists('app')) {
     /**
@@ -77,9 +78,9 @@ if (!function_exists('url')) {
     /**
      * Return the url instance.
      *
-     * @return string
+     * @return \Genesis\Routing\URL
      */
-    function url()
+    function url(): URL
     {
         return app('url');
     }
