@@ -16,7 +16,9 @@ class ConsoleServiceProvider extends ServiceProvider
         if (!class_exists('WP_CLI')) {
             return;
         }
-        $this->app->instance('command.make.model', new \Genesis\Foundation\Console\Commands\MakeModel($this->app->make('files')));
+        $this->app->singleton('command.make.model', function ($app) {
+            return new \Genesis\Foundation\Console\Commands\MakeModel($app->make('files'));
+        });
         $this->app->instance('command.royalmail', new \Genesis\Foundation\Console\Commands\RoyalMail());
     }
 }

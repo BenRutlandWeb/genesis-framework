@@ -253,6 +253,23 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
+     * Bootstrap the application.
+     */
+    public function bootstrap()
+    {
+        $bootstrappers = [
+            \Genesis\Foundation\Bootstrap\LoadConfiguration::class,
+            \Genesis\Foundation\Bootstrap\RegisterFacades::class,
+            \Genesis\Foundation\Bootstrap\RegisterProviders::class,
+            \Genesis\Foundation\Bootstrap\BootProviders::class,
+        ];
+
+        foreach ($bootstrappers as $bootstrapper) {
+            $this->make($bootstrapper)->bootstrap($this);
+        }
+    }
+
+    /**
      * Boot the given service provider.
      *
      * @param  \Genesis\Contracts\Support\ServiceProvider  $provider
