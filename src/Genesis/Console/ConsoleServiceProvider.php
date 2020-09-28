@@ -16,8 +16,6 @@ class ConsoleServiceProvider extends ServiceProvider
         if (!class_exists('WP_CLI')) {
             return;
         }
-        $this->app->singleton('command.royalmail', function () {
-            return new \Genesis\Console\Commands\RoyalMail();
-        });
+        $this->app->instance('command.royalmail', new \Genesis\Console\Commands\RoyalMail());
     }
 }
