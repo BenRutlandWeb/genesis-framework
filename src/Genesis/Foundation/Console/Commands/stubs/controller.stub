@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Controllers;
+
+use Genesis\Controllers\Controller;
+use Genesis\Http\Request;
+
+class {{ class }} extends Controller
+{
+    /**
+     * The action specified by the ajax call.
+     *
+     * @var string
+     */
+    protected $action = '{{ action }}';
+
+    /**
+     * Handle the ajax call.
+     *
+     * @param \Genesis\Http\Request $request The request object.
+     *
+     * @return string
+     */
+    public function handle(Request $request): string
+    {
+        # code...
+    }
+}

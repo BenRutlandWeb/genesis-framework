@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Models;
+
+use Genesis\Database\Models\Model;
+
+class {{ class }} extends Model
+{
+    # code...
+}

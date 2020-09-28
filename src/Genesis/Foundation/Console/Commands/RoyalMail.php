@@ -1,6 +1,6 @@
 <?php
 
-namespace Genesis\Console\Commands;
+namespace Genesis\Foundation\Console\Commands;
 
 use Genesis\Console\Command;
 
