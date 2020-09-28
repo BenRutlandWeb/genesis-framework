@@ -33,6 +33,19 @@ class URL
     }
 
     /**
+     * Return the asset url.
+     *
+     * @param string $path
+     * @param bool   $absolute
+     *
+     * @return string
+     */
+    public function asset(string $path, bool $absolute = true): string
+    {
+        return ($absolute ? get_template_directory_uri() : '') . '/assets/' . $path;
+    }
+
+    /**
      * return the login URL
      *
      * @param string $redirect

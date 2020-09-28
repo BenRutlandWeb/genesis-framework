@@ -29,7 +29,7 @@ if (!function_exists('asset')) {
      */
     function asset(string $path, bool $absolute = true): string
     {
-        return ($absolute ? get_template_directory_uri() : '') . '/assets/' . $path;
+        return app('url')->asset($path, $absolute);
     }
 }
 
