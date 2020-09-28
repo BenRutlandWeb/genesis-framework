@@ -37,8 +37,6 @@ if (!function_exists('auth')) {
     /**
      * Get the auth object.
      *
-     * @param string $key
-     *
      * @return \Genesis\Auth\Auth
      */
     function auth(): Auth
@@ -72,6 +70,18 @@ if (!function_exists('dump')) {
     function dump(...$args): void
     {
         var_dump(...$args);
+    }
+}
+
+if (!function_exists('url')) {
+    /**
+     * Return the url instance.
+     *
+     * @return string
+     */
+    function url()
+    {
+        return app('url');
     }
 }
 
