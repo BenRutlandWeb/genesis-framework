@@ -229,7 +229,7 @@ class Application extends Container implements ApplicationContract
      */
     public function registerConfiguredProviders(): void
     {
-        $providers = $this->make('config')->get('app.providers', []);
+        $providers = $this->make('config')->get('providers', []);
 
         foreach ($providers as $provider) {
             $this->register($provider);
