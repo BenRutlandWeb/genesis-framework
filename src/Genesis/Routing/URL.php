@@ -14,13 +14,26 @@ class URL
         # code...
     }
 
-    public function previous()
+    /**
+     * Get the URL for the previous request.
+     *
+     * @param string|null $fallback
+     *
+     * @return string
+     */
+    public function previous(?string $fallback = null): string
     {
-        # code...
+        if ($previous = wp_get_referer()) {
+            return $previous;
+        }
+        if ($fallback) {
+            return $fallback;
+        }
+        return $this->home();
     }
 
     /**
-     * Go to the login page.
+     * return the login URL
      *
      * @param string $redirect
      *
@@ -32,7 +45,7 @@ class URL
     }
 
     /**
-     * Go to the logout page.
+     * Return the logout URL
      *
      * @param string $redirect The redirect URL
      *
@@ -41,5 +54,17 @@ class URL
     public function logout(string $redirect = '/'): string
     {
         return wp_logout_url($redirect);
+    }
+
+    /**
+     * Return the home URL
+     *
+     * @param string $path The path to append to the home URL
+     *
+     * @return string
+     */
+    public function home(string $path = ''): string
+    {
+        return home_url($path);
     }
 }
