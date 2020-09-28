@@ -2,6 +2,8 @@
 
 namespace Genesis\Console;
 
+use Genesis\Foundation\Console\Commands\MakeModel;
+use Genesis\Foundation\Console\Commands\RoyalMail;
 use Genesis\Support\ServiceProvider;
 
 class ConsoleServiceProvider extends ServiceProvider
@@ -16,11 +18,8 @@ class ConsoleServiceProvider extends ServiceProvider
         if (!class_exists('WP_CLI')) {
             return;
         }
-        $this->app->singleton('command.make.model', function ($app) {
-            return new \Genesis\Foundation\Console\Commands\MakeModel($app->make('files'));
-        });
-        $this->app->singleton('command.royalmail', function () {
-            return new \Genesis\Foundation\Console\Commands\RoyalMail();
-        });
+        $this->app->instance('command.make.model', new MakeModel($this->app->make('files')));
+
+        $this->app->instance('command.royalmail', new RoyalMail());
     }
 }

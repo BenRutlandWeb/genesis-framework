@@ -1,32 +1,32 @@
 <?php
 
-namespace App\Support\Console\Commands;
+namespace App\Console\Commands;
 
-use App\Support\Console\Command;
+use Genesis\Console\Command;
 
 class {{ class }} extends Command
 {
-  /**
-   * The command signature.
-   *
-   * @var string
-   */
-  protected $signature = '{{ command }}';
-  
-  /**
-   * The command description.
-   *
-   * @var string
-   */
-  protected $description = '';
-  
-  /**
-   * Handle the command call.
-   *
-   * @return void
-   */
-  protected function handle(): void
-  {
-    $this->success('Done');
-  }
+    /**
+     * The command signature.
+     *
+     * @var string
+     */
+    protected $signature = '{{ command }}';
+
+    /**
+     * The command description.
+     *
+     * @var string
+     */
+    protected $description = '';
+
+    /**
+     * Handle the command call.
+     *
+     * @return void
+     */
+    protected function handle(): void
+    {
+        $this->success('Done');
+    }
 }
