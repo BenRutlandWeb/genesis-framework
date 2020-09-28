@@ -1,5 +1,6 @@
 <?php
 
+use Genesis\Auth\Auth;
 use Genesis\Foundation\Application;
 
 if (!function_exists('app')) {
@@ -29,6 +30,20 @@ if (!function_exists('asset')) {
     function asset(string $path, bool $absolute = true): string
     {
         return ($absolute ? get_template_directory_uri() : '') . '/assets/' . $path;
+    }
+}
+
+if (!function_exists('auth')) {
+    /**
+     * Get the auth object.
+     *
+     * @param string $key
+     *
+     * @return \Genesis\Auth\Auth
+     */
+    function auth(): Auth
+    {
+        return app('auth');
     }
 }
 
