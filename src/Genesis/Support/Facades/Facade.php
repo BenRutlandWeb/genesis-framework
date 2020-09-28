@@ -2,7 +2,7 @@
 
 namespace Genesis\Support\Facades;
 
-use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\Container;
 use RuntimeException;
 
 abstract class Facade
@@ -10,7 +10,7 @@ abstract class Facade
     /**
      * The application instance being facaded.
      *
-     * @var \Illuminate\Container\Container
+     * @var \Illuminate\Contracts\Container\Container
      */
     protected static $app;
 
@@ -71,7 +71,7 @@ abstract class Facade
     /**
      * Set the application instance.
      *
-     * @param  \Illuminate\Container\Container  $app
+     * @param  \Illuminate\Contracts\Container\Container  $app
      * @return void
      */
     public static function setFacadeApplication(Container $app): void
