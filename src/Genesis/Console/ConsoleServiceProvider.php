@@ -19,6 +19,8 @@ class ConsoleServiceProvider extends ServiceProvider
         $this->app->singleton('command.make.model', function ($app) {
             return new \Genesis\Foundation\Console\Commands\MakeModel($app->make('files'));
         });
-        $this->app->instance('command.royalmail', new \Genesis\Foundation\Console\Commands\RoyalMail());
+        $this->app->singleton('command.royalmail', function () {
+            return new \Genesis\Foundation\Console\Commands\RoyalMail();
+        });
     }
 }
