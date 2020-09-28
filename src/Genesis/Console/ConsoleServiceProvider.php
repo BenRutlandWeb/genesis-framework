@@ -15,16 +15,7 @@ class ConsoleServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        if (!class_exists('WP_CLI')) {
-            return;
-        }
-        $this->app->singleton('command.make.model', function ($app) {
-            return new MakeModel($app->make('files'));
-        });
-
-        $this->app->singleton('command.royalmail', function () {
-            return new RoyalMail();
-        });
+        # code...
     }
 
     /**
@@ -34,7 +25,11 @@ class ConsoleServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->app->make('command.make.model');
-        $this->app->make('command.royalmail');
+        if (!class_exists('WP_CLI')) {
+            return;
+        }
+        $this->app->instance('command.make.model', new MakeModel($this->app->make('files')));
+
+        $this->app->instance('command.royalmail', new RoyalMail());
     }
 }

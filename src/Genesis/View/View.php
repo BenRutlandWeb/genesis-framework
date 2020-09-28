@@ -56,7 +56,7 @@ class View
      * Get the view.
      *
      * @param string $path
-     * @param array $data
+     * @param array  $data
      *
      * @return string
      */
@@ -69,7 +69,7 @@ class View
      * Evaluate the view path.
      *
      * @param string $__path
-     * @param array $__data
+     * @param array  $__data
      *
      * @return string
      */
