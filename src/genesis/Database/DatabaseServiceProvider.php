@@ -14,9 +14,6 @@ class DatabaseServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('db', function () {
-
-            return Database::connect();
-        });
+        $this->app->instance('db', Database::connect());
     }
 }
