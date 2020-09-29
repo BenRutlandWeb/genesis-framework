@@ -2,8 +2,8 @@
 
 namespace Genesis\Database;
 
+use Genesis\Database\Database;
 use Genesis\Support\ServiceProvider;
-use WPEloquent\Database;
 
 class DatabaseServiceProvider extends ServiceProvider
 {

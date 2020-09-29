@@ -1,6 +1,6 @@
 <?php
 
-namespace WPEloquent;
+namespace Genesis\Database;
 
 use Illuminate\Database\Capsule\Manager;
 

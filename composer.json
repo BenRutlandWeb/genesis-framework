@@ -8,10 +8,11 @@
   ],
   "require": {
     "illuminate/container": "^8.6",
-    "symfony/finder": "^5.1",
-    "php": "^7.3",
+    "illuminate/database": "^8.7",
     "illuminate/support": "^8.6",
-    "brw/wp-eloquent": "^1.0"
+    "php": "^7.3",
+    "staudenmeir/eloquent-has-many-deep": "^1.13",
+    "symfony/finder": "^5.1"
   },
   "license": "MIT",
   "authors": [
@@ -27,6 +28,12 @@
     },
     "files": [
       "src/genesis/Support/helpers.php"
+    ],
+    "repositories": [
+      {
+        "type": "vcs",
+        "url": "https://github.com/BenRutlandWeb/genesis-framework"
+      }
     ]
   }
 }
