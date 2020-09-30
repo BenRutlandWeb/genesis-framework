@@ -91,10 +91,13 @@ if (!function_exists('url')) {
     /**
      * Return the url instance.
      *
-     * @return \Genesis\Routing\URL
+     * @return \Genesis\Routing\URL|string
      */
-    function url(): URL
+    function url(string $path = '')
     {
+        if ($path) {
+            return app('url')->home($path);
+        }
         return app('url');
     }
 }
