@@ -25,17 +25,7 @@ class DatabaseServiceProvider extends ServiceProvider
 
         $this->app->singleton('db', function ($app) {
 
-            $app['db.capsule']->addConnection([
-                'driver'    => 'mysql',
-                'prefix'    => $app->make('wpdb')->prefix,
-                'host'      => DB_HOST,
-                'database'  => DB_NAME,
-                'username'  => DB_USER,
-                'password'  => DB_PASSWORD,
-                'port'      => '3306',
-                'charset'   => 'utf8',
-                'collation' => 'utf8_unicode_ci',
-            ]);
+            $app['db.capsule']->addConnection($app->make('config')->get('db'));
 
             $app['db.capsule']->bootEloquent();
 
