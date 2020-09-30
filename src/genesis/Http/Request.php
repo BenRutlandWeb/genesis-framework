@@ -7,10 +7,11 @@ use JsonSerializable;
 
 class Request implements JsonSerializable
 {
-    public function __construct($query = [], $request = [], $files = [], $cookies = [], $server = [], $headers = [], $content = null)
+    public function __construct($query = [], $post = [], $files = [], $cookies = [], $server = [], $headers = [], $content = null)
     {
         $this->query = collect($query);
-        $this->request = collect($request);
+        $this->post = collect($post);
+        $this->request = $this->post->merge($this->query);
         $this->files = collect($files);
         $this->cookies = collect($cookies);
         $this->server = collect($server);
@@ -166,15 +167,9 @@ class Request implements JsonSerializable
         return $this->headers->all();
     }
 
-    public function boolean(string $key)
+    public function boolean(string $key, bool $default = false)
     {
-        if ($this->request->has($key)) {
-            return in_array(
-                (string) $this->request->get($key),
-                ['1', 'true', 'on', 'yes']
-            );
-        }
-        return false;
+        return filter_var($this->request->get($key, $default), FILTER_VALIDATE_BOOLEAN);
     }
 
     public function __call(string $method, array $args)
