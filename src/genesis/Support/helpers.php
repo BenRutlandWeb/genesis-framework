@@ -2,6 +2,7 @@
 
 use Genesis\Auth\Auth;
 use Genesis\Foundation\Application;
+use Genesis\Http\Request;
 use Genesis\Routing\URL;
 
 if (!function_exists('app')) {
@@ -71,6 +72,18 @@ if (!function_exists('dump')) {
     function dump(...$args): void
     {
         var_dump(...$args);
+    }
+}
+
+if (!function_exists('request')) {
+    /**
+     * Return the request instance.
+     *
+     * @return \Genesis\Http\Request
+     */
+    function request(): Request
+    {
+        return app('request');
     }
 }
 
