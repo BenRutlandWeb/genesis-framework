@@ -35,7 +35,8 @@ class DatabaseServiceProvider extends ServiceProvider
                 'port'      => '3306',
                 'charset'   => 'utf8',
                 'collation' => 'utf8_unicode_ci',
-            ], 'default');
+            ]);
+
             $app['db.capsule']->bootEloquent();
 
             return $app['db.capsule']->getDatabaseManager();
