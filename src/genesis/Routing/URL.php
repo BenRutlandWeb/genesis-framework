@@ -2,16 +2,40 @@
 
 namespace Genesis\Routing;
 
+use Genesis\Http\Request;
+
 class URL
 {
-    public function current()
+    /**
+     * Assign the request object to the instance.
+     *
+     * @param \Genesis\Http\Request $request
+     *
+     * @return void
+     */
+    public function __construct(Request $request)
     {
-        # code...
+        $this->request = $request;
     }
 
-    public function full()
+    /**
+     * Get the current URL without query parameters.
+     *
+     * @return string
+     */
+    public function current(): string
     {
-        # code...
+        return $this->request->url();
+    }
+
+    /**
+     * Get the current URL including query parameters.
+     *
+     * @return string
+     */
+    public function full(): string
+    {
+        return $this->request->fullUrl();
     }
 
     /**

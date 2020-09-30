@@ -13,8 +13,8 @@ class RoutingServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('url', function () {
-            return new \Genesis\Routing\URL();
+        $this->app->singleton('url', function ($app) {
+            return new \Genesis\Routing\URL($app->make('request'));
         });
     }
 }
