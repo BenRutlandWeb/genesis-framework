@@ -161,9 +161,9 @@ class Request implements JsonSerializable
     public function header(?string $key = null, $default = null)
     {
         if ($key) {
-            return $this->header->get($key) ?? $default;
+            return $this->headers->get($key) ?? $default;
         }
-        return $this->header->all();
+        return $this->headers->all();
     }
 
     public function boolean(string $key)
