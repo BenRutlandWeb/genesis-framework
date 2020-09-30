@@ -25,11 +25,15 @@ class DatabaseServiceProvider extends ServiceProvider
 
         $this->app->singleton('db', function ($app) {
 
-            $app['db.capsule']->addConnection($app->make('config')->get('db'));
+            $app['db.capsule']->addConnection($app['config']->get('db'));
 
             $app['db.capsule']->bootEloquent();
 
             return $app['db.capsule']->getDatabaseManager();
+        });
+
+        $this->app->bind('db.connection', function ($app) {
+            return $app['db']->connection();
         });
     }
 }
