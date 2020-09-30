@@ -15,7 +15,7 @@ class DatabaseServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('db.capsule', function ($app) {
+        $this->app->singleton('db', function ($app) {
             return new Capsule($app);
         });
         $this->app->bind('db.connection', function ($app) {
