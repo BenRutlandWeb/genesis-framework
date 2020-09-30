@@ -4,6 +4,7 @@ namespace Genesis\Database;
 
 use Genesis\Support\ServiceProvider;
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Database\Eloquent\Model;
 
 class DatabaseServiceProvider extends ServiceProvider
 {
@@ -35,5 +36,15 @@ class DatabaseServiceProvider extends ServiceProvider
         $this->app->bind('db.connection', function ($app) {
             return $app['db']->connection();
         });
+    }
+
+    /**
+     * Boot the service provider
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Model::setConnectionResolver($this->app['db']);
     }
 }
