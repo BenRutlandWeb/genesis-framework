@@ -2,7 +2,6 @@
 
 namespace Genesis\Database;
 
-use Genesis\Database\Database;
 use Genesis\Support\ServiceProvider;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
@@ -15,17 +14,20 @@ class DatabaseServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('db', function ($app) {
-            return new Capsule($app);
-        });
-        $this->app->bind('db.connection', function ($app) {
-
+        $this->app->singleton('wpdb', function () {
             global $wpdb;
+            return $wpdb;
+        });
 
-            $instance = $app->make('db.capsule');
-            $instance->addConnection([
+        $this->app->singleton('db.capsule', function () {
+            return new Capsule();
+        });
+
+        $this->app->singleton('db', function ($app) {
+
+            $app['db.capsule']->addConnection([
                 'driver'    => 'mysql',
-                'prefix'    => $wpdb->prefix,
+                'prefix'    => $app->make('wpdb')->prefix,
                 'host'      => DB_HOST,
                 'database'  => DB_NAME,
                 'username'  => DB_USER,
@@ -33,8 +35,10 @@ class DatabaseServiceProvider extends ServiceProvider
                 'port'      => '3306',
                 'charset'   => 'utf8',
                 'collation' => 'utf8_unicode_ci',
-            ]);
-            $instance->bootEloquent();
+            ], 'default');
+            $app['db.capsule']->bootEloquent();
+
+            return $app['db.capsule']->getDatabaseManager();
         });
     }
 }
