@@ -67,10 +67,10 @@ class AjaxRoute
     /**
      * Handle the route call
      *
-     * @return mixed
+     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
-        return call_user_func($this->callback, $this->router->request);
+        die(call_user_func($this->callback, $this->router->request));
     }
 }

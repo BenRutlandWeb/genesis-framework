@@ -315,4 +315,14 @@ class Request implements JsonSerializable
     {
         return $this->request;
     }
+
+    /**
+     * JSON eoncode the request
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return json_encode($this->request);
+    }
 }
