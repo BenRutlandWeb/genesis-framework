@@ -3,6 +3,7 @@
 namespace Genesis\Foundation\Console\Commands;
 
 use Genesis\Console\GenerateCommand;
+use Illuminate\Support\Str;
 
 class MakeModel extends GenerateCommand
 {
@@ -12,7 +13,8 @@ class MakeModel extends GenerateCommand
      * @var string
      */
     protected $signature = 'make:model {name : The name of model}
-                                     {--force : Overwrite the model if it exists}';
+                                       {--post : Extend the posts table?}
+                                       {--force : Overwrite the model if it exists}';
 
     /**
      * The command description.
@@ -28,7 +30,7 @@ class MakeModel extends GenerateCommand
      */
     protected function handle(): void
     {
-        $name = $this->argument('name');
+        $name = Str::studly($this->argument('name'));
 
         $path = $this->getPath($name);
 
@@ -40,9 +42,7 @@ class MakeModel extends GenerateCommand
 
         $stub = $this->files->get($this->getStub());
 
-        $stub = str_replace('{{ class }}', $name, $stub);
-
-        $this->files->put($path, $stub);
+        $this->files->put($path, str_replace(['{{ class }}', '{{ table }}'], [$name, Str::snake($name)], $stub));
 
         $this->success('Model created');
     }
@@ -54,6 +54,9 @@ class MakeModel extends GenerateCommand
      */
     protected function getStub(): string
     {
+        if ($this->option('post')) {
+            return __DIR__ . '/stubs/model.post.stub';
+        }
         return __DIR__ . '/stubs/model.stub';
     }
 

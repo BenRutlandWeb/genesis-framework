@@ -6,5 +6,10 @@ use Genesis\Database\Models\Model;
 
 class {{ class }} extends Model
 {
-    # code...
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = '{{ table }}';
 }

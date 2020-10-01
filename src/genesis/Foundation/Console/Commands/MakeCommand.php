@@ -12,7 +12,7 @@ class MakeCommand extends GenerateCommand
      * @var string
      */
     protected $signature = 'make:command {name : The name of command}
-                                       {--force : Overwrite the command if it exists}';
+                                         {--force : Overwrite the command if it exists}';
 
     /**
      * The command description.
@@ -29,10 +29,6 @@ class MakeCommand extends GenerateCommand
     protected function handle(): void
     {
         $name = $this->argument('name');
-
-        if (!$name) {
-            $this->error('<name> argument is missing');
-        }
 
         $path = $this->getPath($name);
 
@@ -70,6 +66,6 @@ class MakeCommand extends GenerateCommand
      */
     protected function getPath(string $name): string
     {
-        return get_template_directory() . "/app/Commands/{$name}.php";
+        return get_template_directory() . "/app/Console/Commands/{$name}.php";
     }
 }

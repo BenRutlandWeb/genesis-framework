@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Models;
+
+use Genesis\Database\Models\Post;
+
+class {{ class }} extends Post
+{
+    /**
+     * The post type for the model.
+     *
+     * @var array|string
+     */
+    public $postType = '{{ table }}';
+}
