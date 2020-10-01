@@ -3,6 +3,7 @@
 namespace Genesis\Console;
 
 use WP_CLI;
+use function WP_CLI\Utils\make_progress_bar as wp_cli_make_progress_bar;
 
 class ProgressBar
 {
@@ -51,7 +52,7 @@ class ProgressBar
      */
     public function start(): void
     {
-        $this->bar = WP_CLI\Utils\make_progress_bar($this->message, $this->count);
+        $this->bar = wp_cli_make_progress_bar($this->message, $this->count);
     }
 
     /**

@@ -6,6 +6,7 @@ use Genesis\Console\Parser;
 use Genesis\Console\ProgressBar;
 use Closure;
 use WP_CLI;
+use function WP_CLI\Utils\format_items as wp_cli_format_items;
 
 abstract class Command
 {
@@ -261,7 +262,7 @@ abstract class Command
      */
     protected function table(array $headers, array $data): Command
     {
-        $this->line(WP_CLI\Utils\format_items('table', $data, $headers));
+        $this->line(wp_cli_format_items('table', $data, $headers));
 
         return $this;
     }
