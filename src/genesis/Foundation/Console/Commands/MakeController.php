@@ -13,8 +13,7 @@ class MakeController extends GenerateCommand
      * @var string
      */
     protected $signature = 'make:controller {name : The name of controller}
-                                          {--action= : The controller action}
-                                          {--force : Overwrite the controller if it exists}';
+                                            {--force : Overwrite the controller if it exists}';
 
     /**
      * The command description.
@@ -30,11 +29,9 @@ class MakeController extends GenerateCommand
      */
     protected function handle(): void
     {
-        $name = $this->argument('name');
+        $name = Str::studly($this->argument('name'));
 
-        $filename = Str::studly($name);
-
-        $path = $this->getPath($filename);
+        $path = $this->getPath($name);
 
         if ($this->files->exists($path) && !$this->option('force')) {
             $this->error('Controller already exists!');
@@ -44,11 +41,7 @@ class MakeController extends GenerateCommand
 
         $stub = $this->files->get($this->getStub());
 
-        $action = Str::snake($this->option('action'));
-
-        $stub = str_replace(['{{ class }}', '{{ action }}'], [$filename, $action], $stub);
-
-        $this->files->put($path, $stub);
+        $this->files->put($path, str_replace('{{ class }}', $name, $stub));
 
         $this->success('Controller created');
     }

@@ -31,6 +31,8 @@ class ConsoleServiceProvider extends ServiceProvider
         }
         $files = $this->app->make('files');
 
+        $this->app->instance('command.make:controller', \Genesis\Foundation\Console\Commands\MakeController::class);
+
         if ($files->exists($console = $this->app->appPath('routes/console.php'))) {
             include $console;
         }
