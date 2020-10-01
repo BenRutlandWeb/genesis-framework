@@ -16,5 +16,8 @@ class RoutingServiceProvider extends ServiceProvider
         $this->app->singleton('url', function ($app) {
             return new \Genesis\Routing\URL($app->make('request'));
         });
+        $this->app->singleton('router.ajax', function ($app) {
+            return new \Genesis\Routing\AjaxRouter($app->make('request'));
+        });
     }
 }

@@ -47,6 +47,20 @@ if (!function_exists('auth')) {
     }
 }
 
+if (!function_exists('ajax')) {
+    /**
+     * Return the ajax URL with the action
+     *
+     * @param string $action The ajax action
+     *
+     * @return string
+     */
+    function ajax(string $action): string
+    {
+        return app('url')->ajax($action);
+    }
+}
+
 if (!function_exists('csrf_field')) {
     /**
      * Return the csrf field.

@@ -111,4 +111,19 @@ class URL
     {
         return home_url($path);
     }
+
+    /**
+     * Return the ajax URL
+     *
+     * @param string $action The ajax action
+     *
+     * @return string
+     */
+    public function ajax(string $action = ''): string
+    {
+        if ($action) {
+            return admin_url("admin-ajax.php?action={$action}");
+        }
+        return admin_url("admin-ajax.php");
+    }
 }
