@@ -3,8 +3,10 @@
 namespace Genesis\Console;
 
 use Genesis\Console\Parser;
+use Genesis\Console\ProgressBar;
 use Closure;
 use WP_CLI;
+use function WP_CLI\Utils\format_items as wp_cli_format_items;
 
 abstract class Command
 {
@@ -249,6 +251,33 @@ abstract class Command
         }
         return $this;
     }
+        
+    /**
+     * Output a table
+     *
+     * @param array $headers The table headers
+     * @param array $data    The table data
+     *
+     * @return \Genesis\Console\Command
+     */
+    protected function table(array $headers, array $data): Command
+    {
+        $this->line(wp_cli_format_items('table', $data, $headers));
+
+        return $this;
+    }
+
+    /**
+     * Create a new progress bar
+     *
+     * @param integer $count
+     *
+     * @return \Genesis\Console\ProgressBar
+     */
+    public function createProgressBar(int $count): ProgressBar
+    {
+        return new ProgressBar($count);
+    }
 
     /**
      * Ask the user to confirm an action.
@@ -307,31 +336,5 @@ abstract class Command
     protected function call(string $command): void
     {
         WP_CLI::runcommand($command);
-    }
-
-    /**
-     * Pipe the command to a callback.
-     *
-     * @param Closure $callback The callback to pipe the command to.
-     *
-     * @return \Genesis\Console\Command
-     */
-    protected function pipe(Closure $callback): Command
-    {
-        return $callback($this);
-    }
-
-    /**
-     * Pass the command to a callback.
-     *
-     * @param Closure $callback The callback to pass the command to.
-     *
-     * @return \Genesis\Console\Command
-     */
-    protected function tap(Closure $callback): Command
-    {
-        $callback($this);
-
-        return $this;
     }
 }
