@@ -60,29 +60,23 @@ abstract class Command
     protected $options = [];
 
     /**
-     * Register the command.
-     */
-    public function __construct()
-    {
-        $this->parseSignature();
-
-        $this->register();
-    }
-
-    /**
      * Register the WP_CLI command.
+     *
+     * @return void
      */
-    protected function register()
+    public function boot(): void
     {
-        WP_CLI::add_command($this->name, $this, $this->synopsis);
+        $synopsis = $this->parseSignature();
+
+        WP_CLI::add_command($this->name, $this, $synopsis);
     }
 
     /**
      * Parse the signature into the command name arguments, options and synopsis.
      *
-     * @return void
+     * @return array
      */
-    protected function parseSignature(): void
+    protected function parseSignature(): array
     {
         [$name, $arguments, $options] = Parser::parse($this->signature);
 
@@ -90,7 +84,7 @@ abstract class Command
 
         $this->allowedArguments = $arguments;
 
-        $this->synopsis = [
+        return [
             'shortdesc' => $this->description,
             'synopsis'  => array_merge($arguments, $options),
         ];
@@ -235,23 +229,6 @@ abstract class Command
         return $this;
     }
 
-    /**
-     * Send an message to the console.
-     *
-     * @var string $message The message to output to the console.
-     *
-     * @return \Genesis\Console\Command
-     */
-    protected function multiline(string $message): Command
-    {
-        $lines = explode("\n", $message);
-
-        foreach ($lines as $line) {
-            WP_CLI::log($line);
-        }
-        return $this;
-    }
-        
     /**
      * Output a table
      *

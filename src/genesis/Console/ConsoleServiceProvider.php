@@ -2,9 +2,7 @@
 
 namespace Genesis\Console;
 
-use Genesis\Console\Console;
-use Genesis\Foundation\Console\Commands\MakeModel;
-use Genesis\Foundation\Console\Commands\MakeProvider;
+use Genesis\Console\Application;
 use Genesis\Support\ServiceProvider;
 
 class ConsoleServiceProvider extends ServiceProvider
@@ -17,7 +15,7 @@ class ConsoleServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton('console', function () {
-            return new Console();
+            return new Application();
         });
     }
 
@@ -32,11 +30,10 @@ class ConsoleServiceProvider extends ServiceProvider
             return;
         }
         $files = $this->app->make('files');
-        $this->app->instance('command.make.model', new MakeModel($files));
-        $this->app->instance('command.make.provider', new MakeProvider($files));
 
         if ($files->exists($console = $this->app->appPath('routes/console.php'))) {
             include $console;
         }
+        $this->app->make('console')->boot();
     }
 }

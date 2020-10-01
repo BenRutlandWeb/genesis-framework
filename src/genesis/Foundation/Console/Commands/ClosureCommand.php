@@ -30,7 +30,7 @@ class ClosureCommand extends Command
 
         parent::__construct();
     }
-    
+
     /**
      * Handle the command call.
      *
@@ -51,5 +51,17 @@ class ClosureCommand extends Command
         $callback = $this->callback->bindTo($this, $this);
 
         call_user_func_array($callback, $parameters);
+    }
+
+    /**
+     * Add a description to the command
+     *
+     * @param string $description
+     *
+     * @return void
+     */
+    public function describe(string $description): void
+    {
+        $this->description = $description;
     }
 }
