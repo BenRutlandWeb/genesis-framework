@@ -60,6 +60,16 @@ abstract class Command
     protected $options = [];
 
     /**
+     * The command constructor
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        # code...
+    }
+
+    /**
      * Register the WP_CLI command.
      *
      * @return void
