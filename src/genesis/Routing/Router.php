@@ -30,12 +30,12 @@ class Router
     /**
      * Handle group calls
      *
-     * @param array    $middleware
-     * @param \Closure $callback
+     * @param array           $middleware
+     * @param \Closure|string $callback
      *
      * @return void
      */
-    public function group(array $middleware, Closure $routes): void
+    public function group(array $middleware, $routes): void
     {
         $this->middleware[] = $middleware;
 

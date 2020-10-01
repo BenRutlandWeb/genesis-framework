@@ -8,6 +8,13 @@ use Genesis\Routing\Router;
 class RouteRegistrar
 {
     /**
+     * The registered middleware
+     *
+     * @var array
+     */
+    protected $middleware = [];
+
+    /**
      * Assign the router to the instance
      *
      * @param \Genesis\Routing\Router $router
@@ -36,11 +43,11 @@ class RouteRegistrar
     /**
      * Handle group calls to the router
      *
-     * @param \Closure $closure
+     * @param \Closure|string $closure
      *
      * @return void
      */
-    public function group(Closure $closure): void
+    public function group($closure): void
     {
         $this->router->group($this->middleware, $closure);
     }
