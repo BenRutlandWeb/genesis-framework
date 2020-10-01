@@ -2,7 +2,7 @@
 
 namespace Genesis\Routing;
 
-use Closure;
+use Exception;
 use Genesis\Routing\Router;
 
 class AjaxRoute
@@ -11,12 +11,12 @@ class AjaxRoute
      * Create the route instance
      *
      * @param string                  $action   The ajax action to lsiten for
-     * @param \Closure                $callback The callback to run
+     * @param callble|string          $callback The callback to run
      * @param \Genesis\Routing\Router $router   The router instance
      *
      * @return void
      */
-    public function __construct(string $action, Closure $callback, Router $router)
+    public function __construct(string $action, $callback, Router $router)
     {
         $this->action = $action;
         $this->callback = $callback;
@@ -71,6 +71,25 @@ class AjaxRoute
      */
     public function handle(): void
     {
-        die(call_user_func($this->callback, $this->router->request));
+        die(call_user_func($this->resolveCallback($this->callback), $this->router->request));
+    }
+
+    /**
+     * Resolve the callback
+     *
+     * @param callable|string $callback
+     * @return callable
+     *
+     * @throws \Exception
+     */
+    public function resolveCallback($callback): callable
+    {
+        if (is_callable($callback)) {
+            return $callback;
+        }
+        if (class_exists($callback)) {
+            return new $callback;
+        }
+        throw new Exception('The controller couldn\'t be resolved');
     }
 }
