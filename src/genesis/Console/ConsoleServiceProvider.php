@@ -2,6 +2,7 @@
 
 namespace Genesis\Console;
 
+use Genesis\Console\Console;
 use Genesis\Foundation\Console\Commands\MakeModel;
 use Genesis\Foundation\Console\Commands\MakeProvider;
 use Genesis\Support\ServiceProvider;
@@ -15,7 +16,9 @@ class ConsoleServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        # code...
+        $this->app->singleton('console', function () {
+            return new Console();
+        });
     }
 
     /**
