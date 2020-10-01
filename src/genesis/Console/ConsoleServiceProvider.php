@@ -34,5 +34,7 @@ class ConsoleServiceProvider extends ServiceProvider
         $files = $this->app->make('files');
         $this->app->instance('command.make.model', new MakeModel($files));
         $this->app->instance('command.make.provider', new MakeProvider($files));
+
+        include $this->app->appPath('routes/console.php');
     }
 }
