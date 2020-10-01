@@ -20,4 +20,16 @@ class RoutingServiceProvider extends ServiceProvider
             return new \Genesis\Routing\AjaxRouter($app->make('request'));
         });
     }
+
+    /**
+     * Boot the service provider.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->app->make('router.ajax')
+            ->middleware('ajax')
+            ->group($this->app->appPath('routes/ajax.php'));
+    }
 }
