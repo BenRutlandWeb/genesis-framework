@@ -47,6 +47,18 @@ if (!function_exists('auth')) {
     }
 }
 
+if (!function_exists('csrf_field')) {
+    /**
+     * Return the csrf field.
+     *
+     * @return string
+     */
+    function csrf_field(): string
+    {
+        return wp_nonce_field('_token', '_token');
+    }
+}
+
 if (!function_exists('dd')) {
     /**
      * Die and dump.
@@ -72,6 +84,20 @@ if (!function_exists('dump')) {
     function dump(...$args): void
     {
         var_dump(...$args);
+    }
+}
+
+if (!function_exists('method_field')) {
+    /**
+     * Return the method field.
+     *
+     * @param string $method The HTTP method
+     *
+     * @return void
+     */
+    function method_field(string $method): void
+    {
+        echo '<input type="hidden" name="_method" value="' . $method . '" />';
     }
 }
 
