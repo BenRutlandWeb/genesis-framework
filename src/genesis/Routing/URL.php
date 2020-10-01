@@ -7,6 +7,13 @@ use Genesis\Http\Request;
 class URL
 {
     /**
+     * The request instance
+     *
+     * @var \Genesis\Http\Request
+     */
+    protected $request;
+
+    /**
      * Assign the request object to the instance.
      *
      * @param \Genesis\Http\Request $request
