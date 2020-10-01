@@ -8,6 +8,15 @@ use Genesis\Support\ServiceProvider;
 class ConsoleServiceProvider extends ServiceProvider
 {
     /**
+     * The pre-built commands
+     *
+     * @var array
+     */
+    protected $commands = [
+        \Genesis\Foundation\Console\Commands\MakeController::class,
+    ];
+
+    /**
      * Register the service provider.
      *
      * @return void
@@ -29,13 +38,15 @@ class ConsoleServiceProvider extends ServiceProvider
         if (!class_exists('WP_CLI')) {
             return;
         }
+        $console = $this->app->make('console');
         $files = $this->app->make('files');
 
-        $this->app->instance('command.make:controller', \Genesis\Foundation\Console\Commands\MakeController::class);
-
-        if ($files->exists($console = $this->app->appPath('routes/console.php'))) {
-            include $console;
+        foreach ($this->commands as $command) {
+            $console->add(new $command($files));
         }
-        $this->app->make('console')->boot();
+        if ($files->exists($path = $this->app->appPath('routes/console.php'))) {
+            include $path;
+        }
+        $console->boot();
     }
 }
