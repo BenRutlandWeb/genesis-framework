@@ -94,7 +94,6 @@ class Application extends Container implements ApplicationContract
         $this->instance('path.base', $this->basePath());
         $this->instance('path.app', $this->appPath());
         $this->instance('path.config', $this->configPath());
-        $this->instance('path.resources', $this->resourcesPath());
     }
 
     /**
@@ -128,17 +127,6 @@ class Application extends Container implements ApplicationContract
     public function configPath(string $path = ''): string
     {
         return $this->basePath . '/config' . ($path ? '/' . $path : '');
-    }
-
-    /**
-     * Get the path to the application resources.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    public function resourcesPath(string $path = ''): string
-    {
-        return $this->basePath . '/resources' . ($path ? '/' . $path : '');
     }
 
     /**
