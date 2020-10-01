@@ -35,7 +35,7 @@ class ConsoleServiceProvider extends ServiceProvider
         $this->app->instance('command.make.model', new MakeModel($files));
         $this->app->instance('command.make.provider', new MakeProvider($files));
 
-        if ($files->exist($console = $this->app->appPath('routes/console.php'))) {
+        if ($files->exists($console = $this->app->appPath('routes/console.php'))) {
             include $console;
         }
     }
