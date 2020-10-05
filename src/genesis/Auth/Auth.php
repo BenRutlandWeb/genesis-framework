@@ -2,7 +2,7 @@
 
 namespace Genesis\Auth;
 
-use WPEloquent\Models\User;
+use Genesis\Database\Models\User;
 
 class Auth
 {
@@ -19,7 +19,7 @@ class Auth
     /**
      * Get the current User.
      *
-     * @return \WPEloquent\Models\User|null
+     * @return \Genesis\Database\Models\User|null
      */
     public function user(): ?User
     {
