@@ -3,7 +3,6 @@
 use Genesis\Auth\Auth;
 use Genesis\Foundation\Application;
 use Genesis\Http\Request;
-use Genesis\Routing\URL;
 
 if (!function_exists('app')) {
     /**
@@ -73,6 +72,18 @@ if (!function_exists('csrf_field')) {
     }
 }
 
+if (!function_exists('csrf_token')) {
+    /**
+     * Return the csrf token.
+     *
+     * @return string
+     */
+    function csrf_token(): string
+    {
+        return wp_create_nonce('_token');
+    }
+}
+
 if (!function_exists('dd')) {
     /**
      * Die and dump.
@@ -125,19 +136,28 @@ if (!function_exists('method_field')) {
      */
     function method_field(string $method): void
     {
-        echo '<input type="hidden" name="_method" value="' . $method . '" />';
+        echo '<input type="hidden" name="_method" value="' . esc_attr($method) . '" />';
     }
 }
 
 if (!function_exists('request')) {
     /**
-     * Return the request instance.
+     * Get an instance of the current request or an input item from the request.
      *
-     * @return \Genesis\Http\Request
+     * @param  array|string|null $key
+     * @param  mixed             $default
+     *
+     * @return \Genesis\Http\Request|string|array
      */
-    function request(): Request
+    function request($key = null, $default = null): Request
     {
-        return app('request');
+        if (is_null($key)) {
+            return app('request');
+        }
+        if (is_array($key)) {
+            return app('request')->only($key);
+        }
+        return app('request')->$key ?? $default;
     }
 }
 
