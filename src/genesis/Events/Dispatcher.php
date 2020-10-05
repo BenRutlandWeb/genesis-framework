@@ -2,7 +2,8 @@
 
 namespace Genesis\Events;
 
-use Closure;
+use ReflectionFunction;
+use ReflectionMethod;
 
 class Dispatcher
 {
@@ -17,7 +18,7 @@ class Dispatcher
      */
     public function listen(string $event, callable $listener, int $priority = 10): void
     {
-        add_action($event, $this->resolveListener($listener), $priority);
+        add_action($event, $listener, $priority, $this->getParameterCount($listener));
     }
 
     /**
@@ -33,7 +34,7 @@ class Dispatcher
         if (is_object($event)) {
             [$payload, $event] = [[$event], get_class($event)];
         }
-        do_action($event, $payload);
+        do_action($event, ...$payload);
     }
 
     /**
@@ -48,20 +49,22 @@ class Dispatcher
      */
     public function forget(string $event, callable $listener, int $priority = 10): void
     {
-        remove_action($event, $this->resolveListener($listener), $priority);
+        remove_action($event, $listener, $priority, $this->getParameterCount($listener));
     }
 
     /**
-     * Wrap the callable in a closure to pass through the arguments correctly.
+     * Return the callable argument count.
      *
      * @param callable $listener
      *
-     * @return Closure
+     * @return int
      */
-    protected function resolveListener(callable $listener): Closure
+    protected function getParameterCount(callable $listener): int
     {
-        return function ($args) use ($listener) {
-            return call_user_func($listener, ...is_array($args) ? $args : [$args]);
-        };
+        $reflect = is_array($listener)
+            ? new ReflectionMethod($listener[0], $listener[1])
+            : new ReflectionFunction($listener);
+
+        return $reflect->getNumberOfParameters();
     }
 }
