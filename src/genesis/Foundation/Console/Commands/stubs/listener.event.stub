@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Listeners;
+
+use App\Events\{{ event }};
+
+class {{ class }}
+{
+    /**
+     * Create the event listener.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        # code...
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param \App\Events\{{ event }} $event
+     * @return void
+     */
+    public function handle({{ event }} $event)
+    {
+        # code...
+    }
+}

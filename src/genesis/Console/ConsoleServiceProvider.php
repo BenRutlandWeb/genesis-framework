@@ -14,7 +14,9 @@ class ConsoleServiceProvider extends ServiceProvider
      */
     protected $commands = [
         \Genesis\Foundation\Console\Commands\MakeController::class,
+        \Genesis\Foundation\Console\Commands\MakeEvent::class,
         \Genesis\Foundation\Console\Commands\MakeModel::class,
+        \Genesis\Foundation\Console\Commands\MakeListener::class,
     ];
 
     /**
