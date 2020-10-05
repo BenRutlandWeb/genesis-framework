@@ -33,7 +33,7 @@ class Dispatcher
         if (is_object($event)) {
             [$payload, $event] = [[$event], get_class($event)];
         }
-        do_action($event, array_merge($payload, [1]));
+        do_action($event, $payload);
     }
 
     /**
@@ -60,9 +60,8 @@ class Dispatcher
      */
     protected function resolveListener(callable $listener): Closure
     {
-        return function (array $args) use ($listener) {
-            array_pop($args);
-            return call_user_func($listener, ...$args);
+        return function ($args) use ($listener) {
+            return call_user_func($listener, ...is_array($args) ? $args : [$args]);
         };
     }
 }
