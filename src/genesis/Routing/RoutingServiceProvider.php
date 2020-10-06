@@ -30,6 +30,6 @@ class RoutingServiceProvider extends ServiceProvider
     {
         $this->app->make('router.ajax')
             ->middleware('ajax')
-            ->group($this->app->appPath('routes/ajax.php'));
+            ->group($this->app->basePath('routes/ajax.php'));
     }
 }

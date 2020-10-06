@@ -131,6 +131,17 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
+     * Get the path to the application database files.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    public function databasePath(string $path = ''): string
+    {
+        return $this->basePath . '/database' . ($path ? '/' . $path : '');
+    }
+
+    /**
      * Register the basic bindings into the container.
      *
      * @return void

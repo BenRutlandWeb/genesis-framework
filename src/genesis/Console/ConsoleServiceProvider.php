@@ -47,7 +47,7 @@ class ConsoleServiceProvider extends ServiceProvider
         foreach ($this->commands as $command) {
             $console->add(new $command($files));
         }
-        if ($files->exists($path = $this->app->appPath('routes/console.php'))) {
+        if ($files->exists($path = $this->app->basePath('routes/console.php'))) {
             include $path;
         }
         $console->boot();
