@@ -148,13 +148,15 @@ if (!function_exists('mix')) {
      *
      * @return string
      */
-    function mix(string $path): string
+    function mix(string $path, bool $absolute = true): string
     {
         $file = app('files')->get(app()->basePath('assets/mix-manifest.json'));
 
         $json = json_decode($file);
 
-        return $json->$path ?? $path;
+        $path = '/' . trim($path, '/');
+
+        return asset(trim($json->$path ?? $path, '/'), $absolute);
     }
 }
 
