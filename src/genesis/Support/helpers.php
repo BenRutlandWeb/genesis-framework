@@ -144,7 +144,8 @@ if (!function_exists('mix')) {
     /**
      * Return the mix path.
      *
-     * @param string $method The HTTP method
+     * @param string $method   The HTTP method
+     * @param bool   $absolute Return an absolute URL or not
      *
      * @return string
      */
