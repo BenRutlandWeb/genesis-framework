@@ -2,6 +2,7 @@
 
 namespace Genesis\Foundation;
 
+use Closure;
 use Genesis\Contracts\Support\ServiceProvider;
 use Genesis\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Container\Container;
@@ -273,5 +274,84 @@ class Application extends Container implements ApplicationContract
         if (method_exists($provider, 'boot')) {
             return $this->call([$provider, 'boot']);
         }
+    }
+
+    /**
+     * Get or check the current application environment.
+     *
+     * @param  string|array  $environments
+     * @return string|bool
+     */
+    public function environment(...$environments)
+    {
+        if (count($environments) > 0) {
+            $patterns = is_array($environments[0]) ? $environments[0] : $environments;
+
+            return in_array($this['env'], $patterns);
+        }
+
+        return $this['env'];
+    }
+
+    /**
+     * Determine if application is in local environment.
+     *
+     * @return bool
+     */
+    public function isLocal(): bool
+    {
+        return $this['env'] === 'local';
+    }
+
+    /**
+     * Determine if application is in development environment.
+     *
+     * @return bool
+     */
+    public function isDevelopment(): bool
+    {
+        return $this['env'] === 'development';
+    }
+
+    /**
+     * Determine if application is in staging environment.
+     *
+     * @return bool
+     */
+    public function isStaging(): bool
+    {
+        return $this['env'] === 'staging';
+    }
+
+    /**
+     * Determine if application is in production environment.
+     *
+     * @return bool
+     */
+    public function isProduction(): bool
+    {
+        return $this['env'] === 'production';
+    }
+
+    /**
+     * Determine if the application is running in the console.
+     *
+     * @return bool
+     */
+    public function runningInConsole(): bool
+    {
+        return class_exists('WP_CLI');
+    }
+
+    /**
+     * Detect the application's current environment.
+     *
+     * @param  \Closure  $callback
+     *
+     * @return string
+     */
+    public function detectEnvironment(Closure $callback): string
+    {
+        return $this['env'] = $callback();
     }
 }

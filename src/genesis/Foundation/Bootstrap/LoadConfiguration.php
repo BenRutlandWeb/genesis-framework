@@ -18,5 +18,9 @@ class LoadConfiguration
         $app->singleton('config', function ($app) {
             return new Repository(require $app->configPath('app.php'));
         });
+
+        $app->detectEnvironment(function () {
+            return wp_get_environment_type();
+        });
     }
 }

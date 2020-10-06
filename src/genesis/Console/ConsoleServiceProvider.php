@@ -38,7 +38,7 @@ class ConsoleServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (!class_exists('WP_CLI')) {
+        if (!$this->app->runningInConsole()) {
             return;
         }
         $console = $this->app->make('console');

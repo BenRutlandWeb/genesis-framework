@@ -2,6 +2,7 @@
 
 namespace Genesis\Contracts\Foundation;
 
+use Closure;
 use Genesis\Contracts\Support\ServiceProvider;
 use Illuminate\Contracts\Container\Container;
 
@@ -52,4 +53,20 @@ interface Application extends Container
      * @return void
      */
     public function boot(): void;
+
+    /**
+     * Detect if running the console.
+     *
+     * @return bool
+     */
+    public function runningInConsole(): bool;
+
+    /**
+     * Detect the environment.
+     *
+     * @param \Closure $callback
+     *
+     * @return string
+     */
+    public function detectEnvironment(Closure $callback): string;
 }
