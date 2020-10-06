@@ -140,6 +140,25 @@ if (!function_exists('method_field')) {
     }
 }
 
+if (!function_exists('mix')) {
+    /**
+     * Return the mix path.
+     *
+     * @param string $method The HTTP method
+     *
+     * @return string
+     */
+    function mix(string $path): string
+    {
+        $file = app('files')->get(app()->basePath('assets/mix-manifest.json'));
+
+        $json = json_decode($file);
+
+        return $json->$path ?? $path;
+    }
+}
+
+
 if (!function_exists('request')) {
     /**
      * Get an instance of the current request or an input item from the request.
