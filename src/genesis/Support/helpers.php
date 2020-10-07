@@ -54,7 +54,7 @@ if (!function_exists('ajax')) {
      *
      * @return string
      */
-    function ajax(string $action): string
+    function ajax(string $action = ''): string
     {
         return app('url')->ajax($action);
     }
