@@ -71,6 +71,9 @@ class AjaxRoute
      */
     public function handle(): void
     {
+        if (!app('csrf')->verify()) {
+            die(http_response_code(403));
+        }
         die(call_user_func($this->resolveCallback($this->callback), $this->router->request));
     }
 
