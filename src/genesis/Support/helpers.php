@@ -4,6 +4,20 @@ use Genesis\Auth\Auth;
 use Genesis\Foundation\Application;
 use Genesis\Http\Request;
 
+if (!function_exists('ajax')) {
+    /**
+     * Return the ajax URL with the action
+     *
+     * @param string $action The ajax action
+     *
+     * @return string
+     */
+    function ajax(string $action = ''): string
+    {
+        return app('url')->ajax($action);
+    }
+}
+
 if (!function_exists('app')) {
     /**
      * Return an instance of the app or an app binding.
@@ -16,6 +30,20 @@ if (!function_exists('app')) {
             return Application::getInstance();
         }
         return Application::getInstance()->make($id, ...$params);
+    }
+}
+
+if (!function_exists('app_path')) {
+    /**
+     * Return the app path.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    function app_path(string $path = ''): string
+    {
+        return app()->appPath($path);
     }
 }
 
@@ -46,17 +74,31 @@ if (!function_exists('auth')) {
     }
 }
 
-if (!function_exists('ajax')) {
+if (!function_exists('base_path')) {
     /**
-     * Return the ajax URL with the action
+     * Return the base path.
      *
-     * @param string $action The ajax action
+     * @param string $path
      *
      * @return string
      */
-    function ajax(string $action = ''): string
+    function base_path(string $path = ''): string
     {
-        return app('url')->ajax($action);
+        return app()->basePath($path);
+    }
+}
+
+if (!function_exists('config_path')) {
+    /**
+     * Return the config path.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    function config_path(string $path = ''): string
+    {
+        return app()->configPath($path);
     }
 }
 
