@@ -17,6 +17,13 @@ class Application extends Container implements ApplicationContract
     protected const VERSION = '1.0.0';
 
     /**
+     * The application namespace
+     *
+     * @var string
+     */
+    protected $namespace = 'App\\';
+
+    /**
      * The base path for the Genesis installation.
      *
      * @var string
@@ -364,5 +371,15 @@ class Application extends Container implements ApplicationContract
     public function detectEnvironment(Closure $callback): string
     {
         return $this['env'] = $callback();
+    }
+
+    /**
+     * Get the application namespace
+     *
+     * @return string
+     */
+    public function getNamespace(): string
+    {
+        return $this->namespace;
     }
 }
