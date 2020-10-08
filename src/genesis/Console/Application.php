@@ -3,8 +3,13 @@
 namespace Genesis\Console;
 
 use Closure;
+use ReflectionClass;
 use Genesis\Console\Command;
+use Genesis\Contracts\Foundation\Application as ApplicationContract;
 use Genesis\Foundation\Console\Commands\ClosureCommand;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Symfony\Component\Finder\Finder;
 
 class Application
 {
@@ -14,6 +19,25 @@ class Application
      * @var array
      */
     protected $commands = [];
+
+    /**
+     * The app instance
+     *
+     * @var \Genesis\Contracts\Foundation\Application
+     */
+    protected $app;
+
+    /**
+     * Bind the application instance to console application
+     *
+     * @param \Genesis\Contracts\Foundation\Application $app
+     *
+     * @return void
+     */
+    public function __construct(ApplicationContract $app)
+    {
+        $this->app = $app;
+    }
 
     /**
      * Register a closure command.
@@ -51,6 +75,43 @@ class Application
     {
         foreach ($this->commands as $command) {
             $command->boot();
+        }
+    }
+
+    /**
+     * Load the console commands
+     *
+     * @param string|array $paths
+     *
+     * @return void
+     */
+    public function load($paths): void
+    {
+        $paths = array_unique(Arr::wrap($paths));
+
+        $paths = array_filter($paths, function ($path) {
+            return is_dir($path);
+        });
+
+        if (empty($paths)) {
+            return;
+        }
+
+        $namespace = $this->app->getNamespace();
+
+        foreach ((new Finder)->in($paths)->files() as $command) {
+            $command = $namespace . str_replace(
+                ['/', '.php'],
+                ['\\', ''],
+                Str::after($command->getPathname(), realpath(app_path()) . DIRECTORY_SEPARATOR)
+            );
+
+            if (
+                is_subclass_of($command, Command::class) &&
+                !(new ReflectionClass($command))->isAbstract()
+            ) {
+                $this->add(new $command());
+            }
         }
     }
 }

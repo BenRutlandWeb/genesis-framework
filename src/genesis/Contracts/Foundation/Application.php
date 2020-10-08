@@ -69,4 +69,11 @@ interface Application extends Container
      * @return string
      */
     public function detectEnvironment(Closure $callback): string;
+
+    /**
+     * Get the application namespace
+     *
+     * @return string
+     */
+    public function getNamespace(): string;
 }

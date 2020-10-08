@@ -13,6 +13,7 @@ class ConsoleServiceProvider extends ServiceProvider
      * @var array
      */
     protected $commands = [
+        \Genesis\Foundation\Console\Commands\MakeCommand::class,
         \Genesis\Foundation\Console\Commands\MakeController::class,
         \Genesis\Foundation\Console\Commands\MakeEvent::class,
         \Genesis\Foundation\Console\Commands\MakeModel::class,
@@ -26,8 +27,8 @@ class ConsoleServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('console', function () {
-            return new Application();
+        $this->app->singleton('console', function ($app) {
+            return new Application($app);
         });
     }
 
@@ -47,9 +48,11 @@ class ConsoleServiceProvider extends ServiceProvider
         foreach ($this->commands as $command) {
             $console->add(new $command($files));
         }
-        if ($files->exists($path = $this->app->basePath('routes/console.php'))) {
-            include $path;
-        }
+
+        $console->load(app_path('Console/Commands'));
+
+        require base_path('routes/console.php');
+
         $console->boot();
     }
 }
