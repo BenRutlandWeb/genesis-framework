@@ -28,12 +28,6 @@
     },
     "files": [
       "src/genesis/Support/helpers.php"
-    ],
-    "repositories": [
-      {
-        "type": "vcs",
-        "url": "https://github.com/BenRutlandWeb/genesis-framework"
-      }
     ]
   }
 }
