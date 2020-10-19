@@ -168,6 +168,22 @@ if (!function_exists('event')) {
     }
 }
 
+if (!function_exists('inline_svg')) {
+    /**
+     * Inline an SVG file.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    function inline_svg(string $path): string
+    {
+        $path = app()->basePath("assets/svg/{$path}.svg");
+
+        return app('files')->get($path);
+    }
+}
+
 if (!function_exists('method_field')) {
     /**
      * Return the method field.
