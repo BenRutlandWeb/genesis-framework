@@ -53,17 +53,18 @@ class Auth
      * @param string  $password The user plain text password.
      * @param boolean $remember The remember token.
      *
-     * @return void
+     * @return boolean
      */
-    public function login(string $login, string $password, bool $remember = false): void
+    public function login(string $login, string $password, ?bool $remember = false): bool
     {
-        wp_signon(
+        $success = wp_signon(
             [
                 'user_login'    => $login,
                 'user_password' => $password,
-                'remember'      => $remember,
+                'remember'      => $remember ?? false,
             ]
         );
+        return !is_wp_error($success);
     }
 
     /**

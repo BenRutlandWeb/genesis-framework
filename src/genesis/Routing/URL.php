@@ -77,6 +77,16 @@ class URL
     }
 
     /**
+     * return the registration URL
+     *
+     * @return string
+     */
+    public function register(string $redirect = '/'): string
+    {
+        return add_query_arg('redirect_to', urlencode($redirect), wp_registration_url());
+    }
+
+    /**
      * return the login URL
      *
      * @param string $redirect
@@ -125,5 +135,30 @@ class URL
             return admin_url("admin-ajax.php?action={$action}");
         }
         return admin_url("admin-ajax.php");
+    }
+
+    /**
+     * Redirect to another page, with an optional status code
+     *
+     * @param string  $url    The URL to redirect to
+     * @param integer $status The status code to send
+     *
+     * @return void
+     */
+    public function redirect(string $url, int $status = 302): void
+    {
+        die(wp_redirect($url, $status));
+    }
+
+    /**
+     * Return the admin URL
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public function admin(string $path = ''): string
+    {
+        return admin_url($path);
     }
 }
