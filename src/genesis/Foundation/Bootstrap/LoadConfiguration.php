@@ -16,7 +16,7 @@ class LoadConfiguration
     public function bootstrap(Application $app): void
     {
         $app->singleton('config', function ($app) {
-            return new Repository(require $app->configPath('app.php'));
+            return new Repository(require $app->basePath('config.php'));
         });
 
         $app->detectEnvironment(function () {
