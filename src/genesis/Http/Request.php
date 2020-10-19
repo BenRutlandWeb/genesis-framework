@@ -2,11 +2,68 @@
 
 namespace Genesis\Http;
 
-use Illuminate\Support\Collection;
+use ArrayAccess;
 use JsonSerializable;
+use Illuminate\Support\Collection;
 
-class Request implements JsonSerializable
+class Request implements ArrayAccess, JsonSerializable
 {
+    /**
+     * The request query arguments
+     *
+     * @var array
+     */
+    protected $query = [];
+
+    /**
+     * The request form data
+     *
+     * @var array
+     */
+    protected $post = [];
+
+    /**
+     * The request query arguments and form data
+     *
+     * @var array
+     */
+    protected $request = [];
+
+    /**
+     * The request files
+     *
+     * @var array
+     */
+    protected $files = [];
+
+    /**
+     * The request cookies
+     *
+     * @var array
+     */
+    protected $cookies = [];
+
+    /**
+     * The server properties
+     *
+     * @var array
+     */
+    protected $server = [];
+
+    /**
+     * The request headers
+     *
+     * @var array
+     */
+    protected $headers = [];
+
+    /**
+     * The request content
+     *
+     * @var string
+     */
+    protected $content;
+
     /**
      * Collect each of the superglobals passed to the constructor
      *
@@ -304,6 +361,54 @@ class Request implements JsonSerializable
     public function __get(string $key)
     {
         return $this->request[$key] ?? null;
+    }
+
+
+    /**
+     * Determine if a given offset exists.
+     *
+     * @param  string  $key
+     * @return bool
+     */
+    public function offsetExists($key): bool
+    {
+        return isset($this->request[$key]);
+    }
+
+    /**
+     * Get the value at a given offset.
+     *
+     * @param  string  $key
+     * @return mixed
+     */
+    public function offsetGet($key)
+    {
+        return $this->request[$key] ?? null;
+    }
+
+    /**
+     * Set the value at a given offset.
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return void
+     */
+    public function offsetSet($key, $value): void
+    {
+        $this->request[$key] = $value;
+    }
+
+    /**
+     * Unset the value at a given offset.
+     *
+     * @param string $key
+     *
+     * @return void
+     */
+    public function offsetUnset($key): void
+    {
+        unset($this->query[$key], $this->post[$key], $this->request[$key]);
     }
 
     /**
