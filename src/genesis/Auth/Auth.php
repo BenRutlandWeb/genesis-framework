@@ -3,6 +3,7 @@
 namespace Genesis\Auth;
 
 use Genesis\Database\Models\User;
+use Genesis\Http\Request;
 
 class Auth
 {
@@ -49,22 +50,22 @@ class Auth
     /**
      * Log the user in with the credentials supplied.
      *
-     * @param string  $login    The user login name/email address.
-     * @param string  $password The user plain text password.
-     * @param boolean $remember The remember token.
+     * @param \Genesis\Http\Request|string $login    The user login name/email address.
+     * @param string|null                  $password The user plain text password.
+     * @param boolean|null                 $remember The remember token.
      *
      * @return boolean
      */
-    public function login(string $login, string $password, ?bool $remember = false): bool
+    public function login($login, ?string $password = null, ?bool $remember = null): bool
     {
-        $success = wp_signon(
-            [
+        if (!$login instanceof Request) {
+            $login = [
                 'user_login'    => $login,
                 'user_password' => $password,
                 'remember'      => $remember ?? false,
-            ]
-        );
-        return !is_wp_error($success);
+            ];
+        }
+        return !is_wp_error(wp_signon($login));
     }
 
     /**

@@ -3,6 +3,7 @@
 use Genesis\Auth\Auth;
 use Genesis\Foundation\Application;
 use Genesis\Http\Request;
+use Genesis\Http\Response;
 
 if (!function_exists('ajax')) {
     /**
@@ -238,6 +239,23 @@ if (!function_exists('request')) {
             return app('request')->only($key);
         }
         return app('request')->$key ?? $default;
+    }
+}
+
+if (!function_exists('response')) {
+    /**
+     * Get an instance of the current request or an input item from the request.
+     *
+     * @param  string $content
+     *
+     * @return \Genesis\Http\Response
+     */
+    function response(string $content = ''): Response
+    {
+        if ($content) {
+            return app('response')->content($content);
+        }
+        return app('response');
     }
 }
 
