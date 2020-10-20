@@ -100,11 +100,13 @@ class Request implements ArrayAccess, JsonSerializable
     }
 
     /**
-     * Get the request path
+     * Compare the request path with the given path for a match
      *
-     * @return string
+     * @param string $path
+     *
+     * @return boolean
      */
-    public function isPath(string $path): string
+    public function isPath(string $path): bool
     {
         return trim($path, '/') === trim($this->path(), '/');
     }
