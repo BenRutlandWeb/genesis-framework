@@ -11,51 +11,51 @@ class Request implements ArrayAccess, JsonSerializable
     /**
      * The request query arguments
      *
-     * @var array
+     * @var \Illuminate\Support\Collection
      */
-    protected $query = [];
+    protected $query;
 
     /**
      * The request form data
      *
-     * @var array
+     * @var \Illuminate\Support\Collection
      */
-    protected $post = [];
+    protected $post;
 
     /**
      * The request query arguments and form data
      *
-     * @var array
+     * @var \Illuminate\Support\Collection
      */
-    protected $request = [];
+    protected $request;
 
     /**
      * The request files
      *
-     * @var array
+     * @var \Illuminate\Support\Collection
      */
-    protected $files = [];
+    protected $files;
 
     /**
      * The request cookies
      *
-     * @var array
+     * @var \Illuminate\Support\Collection
      */
-    protected $cookies = [];
+    protected $cookies;
 
     /**
      * The server properties
      *
-     * @var array
+     * @var \Illuminate\Support\Collection
      */
-    protected $server = [];
+    protected $server;
 
     /**
      * The request headers
      *
-     * @var array
+     * @var \Illuminate\Support\Collection
      */
-    protected $headers = [];
+    protected $headers;
 
     /**
      * The request content
