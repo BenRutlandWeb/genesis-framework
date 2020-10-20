@@ -54,9 +54,9 @@ class Auth
      * @param string|null                  $password The user plain text password.
      * @param boolean|null                 $remember The remember token.
      *
-     * @return boolean
+     * @return \Genesis\Database\Models\User|false
      */
-    public function login($login, ?string $password = null, ?bool $remember = null): bool
+    public function login($login, ?string $password = null, ?bool $remember = null)
     {
         if (!$login instanceof Request) {
             $login = [
@@ -65,7 +65,12 @@ class Auth
                 'remember'      => $remember ?? false,
             ];
         }
-        return !is_wp_error(wp_signon($login));
+        $user = wp_signon($login);
+
+        if (!is_wp_error($user)) {
+            return User::find($user->ID);
+        }
+        return false;
     }
 
     /**
