@@ -100,6 +100,16 @@ class Request implements ArrayAccess, JsonSerializable
     }
 
     /**
+     * Get the request path
+     *
+     * @return string
+     */
+    public function isPath(string $path): string
+    {
+        return trim($path, '/') === trim($this->path(), '/');
+    }
+
+    /**
      * Get the root domain
      *
      * @return string
