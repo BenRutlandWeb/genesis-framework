@@ -15,6 +15,6 @@ class {{ class }}
      */
     public function subscribe(Dispatcher $events): void
     {
-        $events->listen();
+        # code...
     }
 }

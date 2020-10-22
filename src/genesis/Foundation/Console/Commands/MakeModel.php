@@ -13,7 +13,7 @@ class MakeModel extends GenerateCommand
      * @var string
      */
     protected $signature = 'make:model {name : The name of model}
-                                       {--post : Extend the posts table?}
+                                       {--posttype : Extend the posts table?}
                                        {--force : Overwrite the model if it exists}';
 
     /**
@@ -54,8 +54,8 @@ class MakeModel extends GenerateCommand
      */
     protected function getStub(): string
     {
-        if ($this->option('post')) {
-            return __DIR__ . '/stubs/model.post.stub';
+        if ($this->option('posttype')) {
+            return __DIR__ . '/stubs/model.posttype.stub';
         }
         return __DIR__ . '/stubs/model.stub';
     }

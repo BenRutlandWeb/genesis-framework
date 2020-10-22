@@ -175,6 +175,7 @@ class Application extends Container implements ApplicationContract
         $this->register(new \Genesis\Http\HttpServiceProvider($this));
         $this->register(new \Genesis\Routing\RoutingServiceProvider($this));
         $this->register(new \Genesis\View\ViewServiceProvider($this));
+        $this->register(new \Genesis\WordPress\WordPressServiceProvider($this));
     }
 
     /**
@@ -196,6 +197,7 @@ class Application extends Container implements ApplicationContract
             'files'   => [\Genesis\Filesystem\Filesystem::class],
             'request' => [\Genesis\Http\Request::class],
             'url'     => [\Genesis\Routing\UrlGenerator::class],
+            'wp.user' => [\WP_User::class],
         ] as $key => $aliases) {
             foreach ($aliases as $alias) {
                 $this->alias($key, $alias);

@@ -4,7 +4,6 @@ namespace Genesis\Console;
 
 use Genesis\Console\Parser;
 use Genesis\Console\ProgressBar;
-use Closure;
 use WP_CLI;
 use function WP_CLI\Utils\format_items as wp_cli_format_items;
 

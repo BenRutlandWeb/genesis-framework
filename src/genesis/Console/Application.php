@@ -110,7 +110,7 @@ class Application
                 is_subclass_of($command, Command::class) &&
                 !(new ReflectionClass($command))->isAbstract()
             ) {
-                $this->add(new $command());
+                $this->add($this->app->make($command));
             }
         }
     }
