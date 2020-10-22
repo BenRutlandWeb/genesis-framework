@@ -17,6 +17,7 @@ class ConsoleServiceProvider extends ServiceProvider
         \Genesis\Foundation\Console\Commands\MakeController::class,
         \Genesis\Foundation\Console\Commands\MakeCpt::class,
         \Genesis\Foundation\Console\Commands\MakeEvent::class,
+        \Genesis\Foundation\Console\Commands\MakeMigration::class,
         \Genesis\Foundation\Console\Commands\MakeModel::class,
         \Genesis\Foundation\Console\Commands\MakeListener::class,
         \Genesis\Foundation\Console\Commands\MakeSubscriber::class,
