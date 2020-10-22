@@ -27,6 +27,14 @@ class Cpt
 
     /**
      * Register the post type
+     */
+    public function __construct()
+    {
+        $this->register();
+    }
+
+    /**
+     * Register the post type
      *
      * @return void
      */
