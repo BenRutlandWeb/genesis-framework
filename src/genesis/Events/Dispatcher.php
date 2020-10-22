@@ -106,4 +106,32 @@ class Dispatcher
 
         return $reflect->getNumberOfParameters();
     }
+
+    /**
+     * Register an event subscriber with the dispatcher.
+     *
+     * @param  object|string  $subscriber
+     * @return void
+     */
+    public function subscribe($subscriber): void
+    {
+        $subscriber = $this->resolveSubscriber($subscriber);
+
+        $subscriber->subscribe($this);
+    }
+
+    /**
+     * Resolve the subscriber instance.
+     *
+     * @param  object|string  $subscriber
+     * @return mixed
+     */
+    protected function resolveSubscriber($subscriber)
+    {
+        if (is_string($subscriber)) {
+            return $this->app->make($subscriber);
+        }
+
+        return $subscriber;
+    }
 }

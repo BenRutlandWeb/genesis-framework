@@ -15,6 +15,13 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [];
 
     /**
+     * The subscriber classes to register.
+     *
+     * @var array
+     */
+    protected $subscribe = [];
+
+    /**
      * Register the service provider.
      *
      * @return void
@@ -35,6 +42,9 @@ class EventServiceProvider extends ServiceProvider
             foreach ($listeners as $listener) {
                 Event::listen($event, $listener);
             }
+        }
+        foreach ($this->subscribe as $subscriber) {
+            Event::subscribe($subscriber);
         }
     }
 }
