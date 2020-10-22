@@ -63,8 +63,8 @@ class MakeCpt extends GenerateCommand
     public function userFeedback(): array
     {
         return [
-            $this->confirm('Is public:'),
-            $this->confirm('Has archive:'),
+            $this->confirm('Is public:') ? 'true' : 'false',
+            $this->confirm('Has archive:') ? 'true' : 'false',
             $this->ask('Icon:'),
         ];
     }
