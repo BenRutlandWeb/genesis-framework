@@ -26,4 +26,11 @@ class {{ class }} extends Cpt
      * @var string
      */
     protected $singular = '{{ singular }}';
+
+    /**
+     * The post type icon
+     *
+     * @var string
+     */
+    protected $icon = '{{ icon }}';
 }

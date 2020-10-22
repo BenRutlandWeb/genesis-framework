@@ -43,8 +43,9 @@ class Cpt
         register_post_type(
             $this->name,
             [
-                'public' => true,
-                'label'  => $this->plural,
+                'public'    => true,
+                'label'     => $this->plural,
+                'menu_icon' => $this->icon,
             ]
         );
     }
