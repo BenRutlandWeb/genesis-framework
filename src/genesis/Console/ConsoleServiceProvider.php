@@ -15,6 +15,7 @@ class ConsoleServiceProvider extends ServiceProvider
     protected $commands = [
         \Genesis\Foundation\Console\Commands\MakeCommand::class,
         \Genesis\Foundation\Console\Commands\MakeController::class,
+        \Genesis\Foundation\Console\Commands\MakeCpt::class,
         \Genesis\Foundation\Console\Commands\MakeEvent::class,
         \Genesis\Foundation\Console\Commands\MakeModel::class,
         \Genesis\Foundation\Console\Commands\MakeListener::class,
@@ -44,10 +45,9 @@ class ConsoleServiceProvider extends ServiceProvider
             return;
         }
         $console = $this->app->make('console');
-        $files = $this->app->make('files');
 
         foreach ($this->commands as $command) {
-            $console->add(new $command($files));
+            $console->add($this->app->make($command));
         }
 
         $console->load(app_path('Console/Commands'));
