@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Listeners;
+
+use Genesis\Events\Dispatcher;
+
+class {{ class }}
+{
+    /**
+     * Register the listeners for the subscriber.
+     *
+     * @param \Genesis\Events\Dispatcher $events
+     *
+     * @return void
+     */
+    public function subscribe(Dispatcher $events): void
+    {
+        $events->listen();
+    }
+}
