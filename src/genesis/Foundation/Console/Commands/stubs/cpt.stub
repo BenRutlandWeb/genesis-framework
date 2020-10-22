@@ -14,17 +14,16 @@ class {{ class }} extends Cpt
     protected $name = '{{ name }}';
 
     /**
-     * Register the post type
+     * The post type label (plural)
      *
-     * @return void
+     * @var string
      */
-    public function __construct()
-    {
-        register_post_type(
-            $this->name,
-            [
-                'public' => true,
-            ]
-        );
-    }
+    protected $plural = '{{ plural }}';
+
+    /**
+     * The post type label (singular)
+     *
+     * @var string
+     */
+    protected $singular = '{{ singular }}';
 }

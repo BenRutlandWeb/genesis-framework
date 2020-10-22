@@ -42,7 +42,11 @@ class MakeCpt extends GenerateCommand
 
         $stub = $this->files->get($this->getStub());
 
-        $this->files->put($path, str_replace(['{{ class }}', '{{ name }}'], [$name, Str::lower($name)], $stub));
+        $this->files->put($path, str_replace(
+            ['{{ class }}', '{{ name }}', '{{ plural }}', '{{ singular }}'],
+            [$name, Str::lower($name), Str::plural($name), Str::title($name)],
+            $stub
+        ));
 
         $this->success('Post type created');
 
@@ -60,8 +64,7 @@ class MakeCpt extends GenerateCommand
     {
         if ($this->option('model') && $this->option('force')) {
             $this->call("make:model {$name} --posttype --force");
-        }
-        if ($this->option('model')) {
+        } else if ($this->option('model')) {
             $this->call("make:model {$name} --posttype");
         }
     }
