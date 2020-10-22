@@ -3,6 +3,7 @@
 namespace Genesis\Console;
 
 use Genesis\Console\Application;
+use Genesis\Foundation\Console\Commands\MigrateInstall;
 use Genesis\Support\ServiceProvider;
 
 class ConsoleServiceProvider extends ServiceProvider
@@ -33,6 +34,10 @@ class ConsoleServiceProvider extends ServiceProvider
     {
         $this->app->singleton('console', function ($app) {
             return new Application($app);
+        });
+
+        $this->app->singleton(MigrateInstall::class, function ($app) {
+            return new MigrateInstall($app['migration.repository']);
         });
     }
 

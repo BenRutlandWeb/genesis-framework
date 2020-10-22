@@ -2,11 +2,10 @@
 
 namespace Genesis\Database;
 
-use Genesis\Contracts\Database\MigrationRepository as MigrationRepositoryInterface;
-use Genesis\Database\MigrationRepository;
 use Genesis\Support\ServiceProvider;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Migrations\DatabaseMigrationRepository;
 
 class DatabaseServiceProvider extends ServiceProvider
 {
@@ -43,8 +42,8 @@ class DatabaseServiceProvider extends ServiceProvider
             return $app['db.connection']->getSchemaBuilder();
         });
 
-        $this->app->singleton(MigrationRepositoryInterface::class, function ($app) {
-            return new MigrationRepository($app['db.schema'], $app['config']->get('migrations'));
+        $this->app->singleton('migration.repository', function ($app) {
+            return new DatabaseMigrationRepository($app['db'], $app['config']->get('migrations'));
         });
     }
 

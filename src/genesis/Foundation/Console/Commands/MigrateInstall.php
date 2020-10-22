@@ -3,7 +3,7 @@
 namespace Genesis\Foundation\Console\Commands;
 
 use Genesis\Console\Command;
-use Genesis\Contracts\Database\MigrationRepository;
+use Illuminate\Database\Migrations\MigrationRepositoryInterface;
 
 class MigrateInstall extends Command
 {
@@ -24,17 +24,17 @@ class MigrateInstall extends Command
     /**
      * The repository instance.
      *
-     * @var \Genesis\Contracts\Database\MigrationRepository
+     * @var \Illuminate\Database\Migrations\MigrationRepositoryInterface
      */
     protected $repository;
 
     /**
      * Create a new migration install command instance.
      *
-     * @param  \Genesis\Contracts\Database\MigrationRepository  $repository
+     * @param  \Illuminate\Database\Migrations\MigrationRepositoryInterface  $repository
      * @return void
      */
-    public function __construct(MigrationRepository $repository)
+    public function __construct(MigrationRepositoryInterface $repository)
     {
         $this->repository = $repository;
 
