@@ -14,18 +14,18 @@ class {{ class }} extends Cpt
     protected $name = '{{ name }}';
 
     /**
-     * The post type label (plural)
+     * Is public
      *
      * @var string
      */
-    protected $plural = '{{ plural }}';
+    protected $public = {{ public }};
 
     /**
-     * The post type label (singular)
+     * Has archive
      *
      * @var string
      */
-    protected $singular = '{{ singular }}';
+    protected $archive = {{ archive }};
 
     /**
      * The post type icon
@@ -33,4 +33,24 @@ class {{ class }} extends Cpt
      * @var string
      */
     protected $icon = '{{ icon }}';
+
+    /**
+     * Return the plural label
+     *
+     * @return string
+     */
+    protected function plural(): string
+    {
+        return Str::plural($this->name);
+    }
+
+    /**
+     * Return the singular label
+     *
+     * @return string
+     */
+    protected function singular(): string
+    {
+        return Str::title($this->name);
+    }
 }

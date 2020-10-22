@@ -42,11 +42,11 @@ class MakeCpt extends GenerateCommand
 
         $stub = $this->files->get($this->getStub());
 
-        [$plural, $single, $icon] = $this->userFeedback();
+        [$public, $archive, $icon] = $this->userFeedback();
 
         $this->files->put($path, str_replace(
-            ['{{ class }}', '{{ name }}', '{{ plural }}', '{{ singular }}', '{{ icon }}'],
-            [$name, Str::lower($name), $plural, $single, $icon],
+            ['{{ class }}', '{{ name }}', '{{ public }}', '{{ archive }}', '{{ icon }}'],
+            [$name, Str::lower($name), $public, $archive, $icon],
             $stub
         ));
 
@@ -63,8 +63,8 @@ class MakeCpt extends GenerateCommand
     public function userFeedback(): array
     {
         return [
-            $this->ask('Plural:'),
-            $this->ask('Singular:'),
+            $this->confirm('Is public:'),
+            $this->confirm('Has archive:'),
             $this->ask('Icon:'),
         ];
     }
