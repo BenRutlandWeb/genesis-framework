@@ -85,7 +85,7 @@ class Dispatcher
      */
     protected function makeListener($listener): callable
     {
-        if (is_string($listener)) {
+        if (is_string($listener) && class_exists($listener)) {
             return [$this->app->make($listener), 'handle'];
         }
         return $listener;
