@@ -4,7 +4,7 @@ namespace Genesis\Routing;
 
 use Genesis\Http\Request;
 
-class URL
+class UrlGenerator
 {
     /**
      * The request instance

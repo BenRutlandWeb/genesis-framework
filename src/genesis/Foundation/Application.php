@@ -192,7 +192,10 @@ class Application extends Container implements ApplicationContract
                 \Illuminate\Contracts\Container\Container::class,
                 \Psr\Container\ContainerInterface::class,
             ],
-            'files'  => [\Genesis\Filesystem\Filesystem::class],
+            'events'  => [\Genesis\Events\Dispatcher::class],
+            'files'   => [\Genesis\Filesystem\Filesystem::class],
+            'request' => [\Genesis\Http\Request::class],
+            'url'     => [\Genesis\Routing\UrlGenerator::class],
         ] as $key => $aliases) {
             foreach ($aliases as $alias) {
                 $this->alias($key, $alias);
