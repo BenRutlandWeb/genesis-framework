@@ -2,12 +2,29 @@
 
 namespace App\Cpts;
 
-class {{ class }}
+use Genesis\WordPress\Cpt;
+
+class {{ class }} extends Cpt
 {
+    /**
+     * The post type name (singular)
+     *
+     * @var string
+     */
+    protected $name = '{{ name }}';
+
+    /**
+     * Register the post type
+     *
+     * @return void
+     */
     public function __construct()
     {
-        register_post_type('{{ name }}', [
-            'public'    => true,
-        ]);
+        register_post_type(
+            $this->name,
+            [
+                'public' => true,
+            ]
+        );
     }
 }

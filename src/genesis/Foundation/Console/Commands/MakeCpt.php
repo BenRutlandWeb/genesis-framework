@@ -46,6 +46,18 @@ class MakeCpt extends GenerateCommand
 
         $this->success('Post type created');
 
+        $this->handleModel($name);
+    }
+
+    /**
+     * Handle making the model
+     *
+     * @param string $name
+     *
+     * @return void
+     */
+    protected function handleModel(string $name): void
+    {
         if ($this->option('model') && $this->option('force')) {
             $this->call("make:model {$name} --posttype --force");
         }
