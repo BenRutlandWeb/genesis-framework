@@ -2,10 +2,9 @@
 
 namespace Genesis\Database;
 
+use Genesis\Contracts\Database\MigrationRepository as MigrationRepositoryInterface;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Database\Schema\Blueprint;
-
-use Genesis\Contracts\Database\MigrationRepository as MigrationRepositoryInterface;
 
 class MigrationRepository implements MigrationRepositoryInterface
 {
@@ -58,7 +57,8 @@ class MigrationRepository implements MigrationRepositoryInterface
     {
         $this->builder->create($this->table, function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('migration');
+            $table->integer('batch');
         });
     }
 }

@@ -3,7 +3,7 @@
 namespace Genesis\Database;
 
 use Genesis\Contracts\Database\MigrationRepository as MigrationRepositoryInterface;
-use Genesis\Contracts\Database\MigrationRepository;
+use Genesis\Database\MigrationRepository;
 use Genesis\Support\ServiceProvider;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Eloquent\Model;

@@ -13,6 +13,7 @@ class ConsoleServiceProvider extends ServiceProvider
      * @var array
      */
     protected $commands = [
+        \Genesis\Foundation\Console\Commands\MigrateInstall::class,
         \Genesis\Foundation\Console\Commands\MakeCommand::class,
         \Genesis\Foundation\Console\Commands\MakeController::class,
         \Genesis\Foundation\Console\Commands\MakeCpt::class,

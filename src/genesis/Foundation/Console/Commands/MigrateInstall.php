@@ -3,7 +3,7 @@
 namespace Genesis\Foundation\Console\Commands;
 
 use Genesis\Console\Command;
-use \Genesis\Contracts\Database\MigrationRepository;
+use Genesis\Contracts\Database\MigrationRepository;
 
 class MigrateInstall extends Command
 {
