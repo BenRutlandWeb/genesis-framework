@@ -3,7 +3,6 @@
 namespace App\Cpts;
 
 use Genesis\WordPress\Cpt;
-use Illuminate\Support\Str;
 
 class {{ class }} extends Cpt
 {
@@ -15,23 +14,15 @@ class {{ class }} extends Cpt
     protected $name = '{{ name }}';
 
     /**
-     * Is public
+     * Options for post type registration
      *
-     * @var string
+     * @var array
      */
-    protected $public = {{ public }};
-
-    /**
-     * Has archive
-     *
-     * @var string
-     */
-    protected $archive = {{ archive }};
-
-    /**
-     * The post type icon
-     *
-     * @var string
-     */
-    protected $icon = '{{ icon }}';
+    protected $options = [
+        'public'       => {{ public }},
+        'has_archive'  => {{ archive }},
+        'show_in_rest' => {{ gutenberg }},
+        'menu_icon'    => '{{ icon }}',
+        'supports'     => ['title', 'editor', 'author', 'thumbnail'],
+    ];
 }
