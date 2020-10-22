@@ -18,6 +18,8 @@ class PostTypeScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        $builder->whereIn('post_type', Arr::wrap($model->postType));
+        if ($model->postType) {
+            $builder->whereIn('post_type', Arr::wrap($model->postType));
+        }
     }
 }

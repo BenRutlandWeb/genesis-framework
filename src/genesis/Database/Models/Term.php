@@ -5,7 +5,7 @@ namespace Genesis\Database\Models;
 use Genesis\Database\Models\Taxonomy;
 use Genesis\Database\Models\TermMeta;
 use Genesis\Database\Models\TermRelationship;
-use Genesis\Database\Models\Post;
+use Genesis\Database\Models\PostType;
 use Genesis\Database\Traits\HasMeta;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -55,7 +55,7 @@ class Term extends Model
     public function posts(): Relation
     {
         return $this->hasManyDeep(
-            Post::class,
+            PostType::class,
             [Taxonomy::class, TermRelationship::class],
             [
                 'term_id',

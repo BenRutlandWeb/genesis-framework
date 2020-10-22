@@ -2,10 +2,10 @@
 
 namespace Genesis\Database\Models;
 
-use Genesis\Database\Models\Post;
+use Genesis\Database\Models\PostType;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
-class Attachment extends Post
+class Attachment extends PostType
 {
     /**
      * The post type for the model.
@@ -21,6 +21,6 @@ class Attachment extends Post
      */
     public function post(): Relation
     {
-        return $this->belongsTo(Post::class, 'post_parent');
+        return $this->belongsTo(PostType::class, 'post_parent');
     }
 }

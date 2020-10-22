@@ -2,7 +2,7 @@
 
 namespace Genesis\Database\Models;
 
-use Genesis\Database\Models\Post;
+use Genesis\Database\Models\PostType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
@@ -46,6 +46,6 @@ class PostMeta extends Model
      */
     public function post(): Relation
     {
-        return $this->belongsTo(Post::class, 'post_id', 'ID');
+        return $this->belongsTo(PostType::class, 'post_id', 'ID');
     }
 }

@@ -2,10 +2,10 @@
 
 namespace Genesis\Database\Models;
 
-use Genesis\Database\Models\Post;
+use Genesis\Database\Models\PostType;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
-class Page extends Post
+class Page extends PostType
 {
     /**
      * The post type for the model.

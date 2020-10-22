@@ -4,7 +4,7 @@ namespace Genesis\Database\Models;
 
 use Carbon\Carbon;
 use Genesis\Database\Models\Comment;
-use Genesis\Database\Models\Post;
+use Genesis\Database\Models\PostType;
 use Genesis\Database\Models\UserMeta;
 use Genesis\Database\Traits\HasMeta;
 use Genesis\Database\Traits\HasRoles;
@@ -101,7 +101,7 @@ class User extends Model
      */
     public function posts(): Relation
     {
-        return $this->hasMany(Post::class, 'post_author');
+        return $this->hasMany(PostType::class, 'post_author');
     }
 
     /**
