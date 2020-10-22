@@ -30,12 +30,11 @@ class MakeMigration extends GenerateCommand
      */
     protected function handle(): void
     {
-        $filename = Str::snake($this->argument('name'));
         $name = Str::studly($this->argument('name'));
 
         $table = $this->option('table');
 
-        $path = $this->getPath(date('Y_m_d_His_') . $filename);
+        $path = $this->getPath($name);
 
         if ($this->files->exists($path) && !$this->option('force')) {
             $this->error('Migration already exists!');
