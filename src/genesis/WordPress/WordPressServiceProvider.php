@@ -14,8 +14,8 @@ class WordPressServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind('wp.user', function () {
-            return new WP_User;
+        $this->app->bind('wp.user', function ($app, $parameters) {
+            return new WP_User($parameters['id'] ?? $app['auth']->id());
         });
     }
 }
