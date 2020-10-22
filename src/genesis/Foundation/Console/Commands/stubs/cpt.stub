@@ -3,6 +3,7 @@
 namespace App\Cpts;
 
 use Genesis\WordPress\Cpt;
+use Illuminate\Support\Str;
 
 class {{ class }} extends Cpt
 {
@@ -33,24 +34,4 @@ class {{ class }} extends Cpt
      * @var string
      */
     protected $icon = '{{ icon }}';
-
-    /**
-     * Return the plural label
-     *
-     * @return string
-     */
-    protected function plural(): string
-    {
-        return Str::plural($this->name);
-    }
-
-    /**
-     * Return the singular label
-     *
-     * @return string
-     */
-    protected function singular(): string
-    {
-        return Str::title($this->name);
-    }
 }
