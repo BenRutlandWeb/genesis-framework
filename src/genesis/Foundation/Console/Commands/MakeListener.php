@@ -70,6 +70,6 @@ class MakeListener extends GenerateCommand
      */
     protected function getPath(string $name): string
     {
-        return get_template_directory() . "/app/Listeners/{$name}.php";
+        return app()->appPath("Listeners/{$name}.php");
     }
 }

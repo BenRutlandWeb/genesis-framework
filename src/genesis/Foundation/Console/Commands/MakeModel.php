@@ -69,6 +69,6 @@ class MakeModel extends GenerateCommand
      */
     protected function getPath(string $name): string
     {
-        return get_template_directory() . "/app/Models/{$name}.php";
+        return app()->appPath("Models/{$name}.php");
     }
 }

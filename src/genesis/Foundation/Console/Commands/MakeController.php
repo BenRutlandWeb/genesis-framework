@@ -65,6 +65,6 @@ class MakeController extends GenerateCommand
      */
     protected function getPath(string $name): string
     {
-        return get_template_directory() . "/app/Controllers/{$name}.php";
+        return app()->appPath("Controllers/{$name}.php");
     }
 }

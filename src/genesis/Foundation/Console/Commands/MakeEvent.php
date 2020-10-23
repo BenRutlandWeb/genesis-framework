@@ -65,6 +65,6 @@ class MakeEvent extends GenerateCommand
      */
     protected function getPath(string $name): string
     {
-        return get_template_directory() . "/app/Events/{$name}.php";
+        return app()->appPath("Events/{$name}.php");
     }
 }

@@ -66,6 +66,6 @@ class MakeProvider extends GenerateCommand
      */
     protected function getPath(string $name): string
     {
-        return get_template_directory() . "/app/Providers/{$name}.php";
+        return app()->appPath("Providers/{$name}.php");
     }
 }

@@ -66,6 +66,6 @@ class MakeCommand extends GenerateCommand
      */
     protected function getPath(string $name): string
     {
-        return get_template_directory() . "/app/Console/Commands/{$name}.php";
+        return app()->appPath("Console/Commands/{$name}.php");
     }
 }
