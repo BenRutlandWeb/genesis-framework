@@ -23,18 +23,6 @@ class ApiRouter extends Router
         }
     }
 
-    public function xresource(string $action, string $callback)
-    {
-        new ApiRoute('GET', $action, [$callback, 'index'], $this);
-        new ApiRoute('GET', $action . '/create', [$callback, 'create'], $this);
-        new ApiRoute('POST', $action, [$callback, 'store'], $this);
-        new ApiRoute('GET', $action . '/{id}', [$callback, 'show'], $this);
-        new ApiRoute('GET', $action . '/{id}/edit', [$callback, 'edit'], $this);
-        new ApiRoute('PUT', $action . '/{id}', [$callback, 'update'], $this);
-        new ApiRoute('PATCH', $action . '/{id}', [$callback, 'update'], $this);
-        new ApiRoute('DELETE', $action . '/{id}', [$callback, 'destroy'], $this);
-    }
-
     /**
      * Create a resource route
      *
