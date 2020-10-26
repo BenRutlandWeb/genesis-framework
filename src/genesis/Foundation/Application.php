@@ -267,6 +267,8 @@ class Application extends Container implements ApplicationContract
             $this->bootProvider($provider);
         }
         $this->booted = true;
+
+        $this['events']->dispatch('genesis:booted', $this);
     }
 
     /**
