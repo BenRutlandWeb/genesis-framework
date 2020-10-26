@@ -38,7 +38,7 @@ class ApiRouter extends Router
         $this->post($action, [$callback, 'store']);
         $this->get($action . '/{id}', [$callback, 'show']);
         $this->get($action . '/{id}/edit', [$callback, 'edit']);
-        $this->match(['PUT', 'PATCH'], $action . '/{id}', [$callback, 'destroy']);
+        $this->match(['PUT', 'PATCH'], $action . '/{id}', [$callback, 'update']);
         $this->delete($action . '/{id}', [$callback, 'destroy']);
     }
 
