@@ -51,12 +51,13 @@ class Response
      * Set a view as the response
      *
      * @param string $view
+     * @param array  $args
      *
      * @return self
      */
-    public function view(string $view): self
+    public function view(string $view, array $args = []): self
     {
-        return $this->content(view($view));
+        return $this->content(view($view, $args));
     }
 
     /**
