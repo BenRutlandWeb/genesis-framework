@@ -2,10 +2,39 @@
 
 namespace Genesis\Routing;
 
+use Genesis\Foundation\Application;
 use Genesis\Routing\Router;
 
 class AjaxRoute
 {
+    /**
+     * The ajax action
+     *
+     * @var string
+     */
+    protected $action;
+
+    /**
+     * The route callback
+     *
+     * @var callable|string
+     */
+    protected $callback;
+
+    /**
+     * The router instance
+     *
+     * @var \Genesis\Routing\Router
+     */
+    protected $router;
+
+    /**
+     * The app instance
+     *
+     * @var \Genesis\Foundation\Application
+     */
+    protected $app;
+
     /**
      * Create the route instance
      *
@@ -15,11 +44,12 @@ class AjaxRoute
      *
      * @return void
      */
-    public function __construct(string $action, $callback, Router $router)
+    public function __construct(string $action, $callback, Router $router, Application $app)
     {
         $this->action = $action;
         $this->callback = $callback;
         $this->router = $router;
+        $this->app = $app;
 
         $this->register();
     }
@@ -50,7 +80,7 @@ class AjaxRoute
      */
     public function addGuestAction(): void
     {
-        add_action("wp_ajax_nopriv_{$this->resolveURL()}", [$this, 'handle']);
+        $this->app['events']->listen("wp_ajax_nopriv_{$this->resolveURL()}", [$this, 'handle']);
     }
 
     /**
@@ -60,7 +90,7 @@ class AjaxRoute
      */
     public function addAuthAction(): void
     {
-        add_action("wp_ajax_{$this->resolveURL()}", [$this, 'handle']);
+        $this->app['events']->listen("wp_ajax_{$this->resolveURL()}", [$this, 'handle']);
     }
 
     /**
@@ -83,6 +113,6 @@ class AjaxRoute
         if (!app('csrf')->verify()) {
             die(http_response_code(403));
         }
-        die(app()->call($this->callback));
+        die($this->app->call($this->callback));
     }
 }

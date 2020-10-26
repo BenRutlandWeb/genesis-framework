@@ -3,11 +3,18 @@
 namespace Genesis\Routing;
 
 use Closure;
-use Genesis\Http\Request;
+use Genesis\Foundation\Application;
 use Genesis\Routing\RouteRegistrar;
 
 class Router
 {
+    /**
+     * The application instance
+     *
+     * @var \Genesis\Foundation\Application
+     */
+    protected $app;
+
     /**
      * The router group attributes
      *
@@ -16,15 +23,15 @@ class Router
     protected $attributes = [];
 
     /**
-     * Assign the request to the instance
+     * Assign the app to the instance
      *
-     * @param Request $request
+     * @param \Genesis\Foundation\Application $app
      *
      * @return void
      */
-    public function __construct(Request $request)
+    public function __construct(Application $app)
     {
-        $this->request = $request;
+        $this->app = $app;
     }
 
     /**

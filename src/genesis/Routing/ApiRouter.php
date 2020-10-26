@@ -11,35 +11,49 @@ class ApiRouter extends Router
      * Register a route matching the passed methods
      *
      * @param array    $methods
-     * @param string   $action
+     * @param string   $route
      * @param callable $callback
      *
      * @return void
      */
-    public function match(array $methods, string $action, callable $callback): void
+    public function match(array $methods, string $route, callable $callback): void
     {
         foreach ($methods as $method) {
-            new ApiRoute($method, $action, $callback, $this);
+            $this->newRoute($method, $route, $callback);
         }
     }
 
     /**
      * Create a resource route
      *
-     * @param string $action
+     * @param string $route
      * @param string $callback
      *
      * @return void
      */
-    public function resource(string $action, string $callback): void
+    public function resource(string $route, string $callback): void
     {
-        $this->get($action, [$callback, 'index']);
-        $this->get($action . '/create', [$callback, 'create']);
-        $this->post($action, [$callback, 'store']);
-        $this->get($action . '/{id}', [$callback, 'show']);
-        $this->get($action . '/{id}/edit', [$callback, 'edit']);
-        $this->match(['PUT', 'PATCH'], $action . '/{id}', [$callback, 'update']);
-        $this->delete($action . '/{id}', [$callback, 'destroy']);
+        $this->get($route, [$callback, 'index']);
+        $this->get($route . '/create', [$callback, 'create']);
+        $this->post($route, [$callback, 'store']);
+        $this->get($route . '/{id}', [$callback, 'show']);
+        $this->get($route . '/{id}/edit', [$callback, 'edit']);
+        $this->match(['PUT', 'PATCH'], $route . '/{id}', [$callback, 'update']);
+        $this->delete($route . '/{id}', [$callback, 'destroy']);
+    }
+
+    /**
+     * Create a new route
+     *
+     * @param string          $method
+     * @param string          $route
+     * @param callable|string $callback
+     *
+     * @return \Genesis\Routing\ApiRoute
+     */
+    public function newRoute(string $method, string $route, $callback): ApiRoute
+    {
+        return new ApiRoute($method, $route, $callback, $this, $this->app);
     }
 
     /**
@@ -53,7 +67,7 @@ class ApiRouter extends Router
     public function __call(string $method, array $params)
     {
         if (in_array($method, ['get', 'post', 'put', 'patch', 'delete'])) {
-            return new ApiRoute($method, $params[0], $params[1], $this);
+            return $this->newRoute($method, ...$params);
         }
         return (new RouteRegistrar($this))->$method(...$params);
     }

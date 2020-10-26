@@ -17,10 +17,10 @@ class RoutingServiceProvider extends ServiceProvider
             return new \Genesis\Routing\UrlGenerator($app['request']);
         });
         $this->app->singleton('router.ajax', function ($app) {
-            return new \Genesis\Routing\AjaxRouter($app['request']);
+            return new \Genesis\Routing\AjaxRouter($app);
         });
         $this->app->singleton('router.api', function ($app) {
-            return new \Genesis\Routing\ApiRouter($app['request']);
+            return new \Genesis\Routing\ApiRouter($app);
         });
     }
 

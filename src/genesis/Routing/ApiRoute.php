@@ -2,6 +2,7 @@
 
 namespace Genesis\Routing;
 
+use Genesis\Foundation\Application;
 use Genesis\Routing\Router;
 use WP_REST_Request;
 
@@ -36,6 +37,13 @@ class ApiRoute
     protected $router;
 
     /**
+     * The app instance
+     *
+     * @var \Genesis\Foundation\Application
+     */
+    protected $app;
+
+    /**
      * Create the route instance
      *
      * @param string                  $method
@@ -43,12 +51,13 @@ class ApiRoute
      * @param callable|string         $callback
      * @param \Genesis\Routing\Router $router
      */
-    public function __construct(string $method, string $route, $callback, Router $router)
+    public function __construct(string $method, string $route, $callback, Router $router, Application $app)
     {
         $this->method = $method;
         $this->route = $route;
         $this->callback = $callback;
         $this->router = $router;
+        $this->app = $app;
 
         $this->register();
     }
@@ -103,7 +112,7 @@ class ApiRoute
     public function resolveCallback(): callable
     {
         return function (WP_REST_Request $request) {
-            return app()->call($this->callback, $request->get_url_params());
+            return $this->app->call($this->callback, $request->get_url_params());
         };
     }
 }

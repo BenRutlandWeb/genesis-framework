@@ -17,6 +17,19 @@ class AjaxRouter extends Router
      */
     public function listen(string $action, $callback): AjaxRoute
     {
-        return new AjaxRoute($action, $callback, $this);
+        return $this->newRoute($action, $callback);
+    }
+
+    /**
+     * Create a new route
+     *
+     * @param string          $action
+     * @param callable|string $callback
+     *
+     * @return \Genesis\Routing\AjaxRoute
+     */
+    public function newRoute(string $action, $callback): AjaxRoute
+    {
+        return new AjaxRoute($action, $callback, $this, $this->app);
     }
 }
