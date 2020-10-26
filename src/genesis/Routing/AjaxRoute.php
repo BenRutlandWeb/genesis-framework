@@ -2,7 +2,6 @@
 
 namespace Genesis\Routing;
 
-use Exception;
 use Genesis\Routing\Router;
 
 class AjaxRoute
@@ -51,7 +50,7 @@ class AjaxRoute
      */
     public function addGuestAction(): void
     {
-        add_action("wp_ajax_nopriv_{$this->action}", [$this, 'handle']);
+        add_action("wp_ajax_nopriv_{$this->resolveURL()}", [$this, 'handle']);
     }
 
     /**
@@ -61,7 +60,17 @@ class AjaxRoute
      */
     public function addAuthAction(): void
     {
-        add_action("wp_ajax_{$this->action}", [$this, 'handle']);
+        add_action("wp_ajax_{$this->resolveURL()}", [$this, 'handle']);
+    }
+
+    /**
+     * Resolve the route URL
+     *
+     * @return string
+     */
+    protected function resolveURL(): string
+    {
+        return $this->router->getPrefix($this->action, '_');
     }
 
     /**
@@ -74,25 +83,6 @@ class AjaxRoute
         if (!app('csrf')->verify()) {
             die(http_response_code(403));
         }
-        die(call_user_func($this->resolveCallback($this->callback), $this->router->request));
-    }
-
-    /**
-     * Resolve the callback
-     *
-     * @param callable|string $callback
-     * @return callable
-     *
-     * @throws \Exception
-     */
-    public function resolveCallback($callback): callable
-    {
-        if (is_callable($callback)) {
-            return $callback;
-        }
-        if (class_exists($callback)) {
-            return new $callback;
-        }
-        throw new Exception('The controller couldn\'t be resolved');
+        die(app()->call($this->callback));
     }
 }

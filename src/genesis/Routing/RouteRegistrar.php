@@ -15,6 +15,13 @@ class RouteRegistrar
     protected $middleware = [];
 
     /**
+     * The registered prefix
+     *
+     * @var string
+     */
+    protected $prefix = '';
+
+    /**
      * Assign the router to the instance
      *
      * @param \Genesis\Routing\Router $router
@@ -41,6 +48,20 @@ class RouteRegistrar
     }
 
     /**
+     * Assign the prefix to the registrar
+     *
+     * @param string $prefix
+     *
+     * @return \Genesis\Routing\RouteRegistrar
+     */
+    public function prefix($prefix): RouteRegistrar
+    {
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
+    /**
      * Handle group calls to the router
      *
      * @param \Closure|string $closure
@@ -49,6 +70,14 @@ class RouteRegistrar
      */
     public function group($closure): void
     {
-        $this->router->group($this->middleware, $closure);
+        $this->router->group($this->getGroupAttributes(), $closure);
+    }
+
+    protected function getGroupAttributes()
+    {
+        return [
+            'middleware' => $this->middleware,
+            'prefix' => $this->prefix,
+        ];
     }
 }

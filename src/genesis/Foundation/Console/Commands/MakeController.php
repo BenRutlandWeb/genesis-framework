@@ -13,6 +13,7 @@ class MakeController extends GenerateCommand
      * @var string
      */
     protected $signature = 'make:controller {name : The name of controller}
+                                            {--resource : Generate a resource controller class}
                                             {--force : Overwrite the controller if it exists}';
 
     /**
@@ -53,6 +54,9 @@ class MakeController extends GenerateCommand
      */
     protected function getStub(): string
     {
+        if ($this->option('resource')) {
+            return __DIR__ . '/stubs/controller.resource.stub';
+        }
         return __DIR__ . '/stubs/controller.stub';
     }
 
@@ -65,6 +69,6 @@ class MakeController extends GenerateCommand
      */
     protected function getPath(string $name): string
     {
-        return app()->appPath("Controllers/{$name}.php");
+        return get_template_directory() . "/app/Controllers/{$name}.php";
     }
 }

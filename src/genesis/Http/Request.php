@@ -375,6 +375,18 @@ class Request implements ArrayAccess, JsonSerializable
         return $this->request[$key] ?? null;
     }
 
+    /**
+     * Dynamically set properties on the request collection
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return void
+     */
+    public function __set(string $key, $value): void
+    {
+        $this->request[$key] = $value;
+    }
 
     /**
      * Determine if a given offset exists.

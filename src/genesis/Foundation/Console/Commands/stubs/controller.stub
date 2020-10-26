@@ -8,7 +8,7 @@ use Genesis\Routing\Controller;
 class {{ class }} extends Controller
 {
     /**
-     * handle the ajax call
+     * Handle the incoming request.
      *
      * @param \Genesis\Http\Request $request
      *

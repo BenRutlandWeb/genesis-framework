@@ -9,11 +9,11 @@ use Genesis\Routing\RouteRegistrar;
 class Router
 {
     /**
-     * The router middleware
+     * The router group attributes
      *
      * @var array
      */
-    protected $middleware = [];
+    protected $attributes = [];
 
     /**
      * Assign the request to the instance
@@ -30,21 +30,21 @@ class Router
     /**
      * Handle group calls
      *
-     * @param array           $middleware
+     * @param array           $attributes
      * @param \Closure|string $callback
      *
      * @return void
      */
-    public function group(array $middleware, $routes): void
+    public function group(array $attributes, $routes): void
     {
-        $this->middleware[] = $middleware;
+        $this->attributes[] = $attributes;
 
         if ($routes instanceof Closure) {
             $routes($this);
         } else {
             require $routes;
         }
-        array_pop($this->middleware);
+        array_pop($this->attributes);
     }
 
     /**
@@ -56,12 +56,24 @@ class Router
      */
     public function hasMiddleware(string $name): bool
     {
-        foreach ($this->middleware as $middleware) {
-            if (in_array($name, $middleware)) {
+        foreach ($this->attributes as $attribute) {
+            if (in_array($name, $attribute['middleware'])) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * Return the prefix
+     *
+     * @return string
+     */
+    public function getPrefix(string $suffix, $sep = '/'): string
+    {
+        $prefix = implode($sep, array_column($this->attributes, 'prefix'));
+
+        return trim($prefix . $sep . $suffix, $sep);
     }
 
     /**
