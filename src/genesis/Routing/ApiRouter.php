@@ -23,7 +23,7 @@ class ApiRouter extends Router
         }
     }
 
-    public function resource(string $action, string $callback)
+    public function xresource(string $action, string $callback)
     {
         new ApiRoute('GET', $action, [$callback, 'index'], $this);
         new ApiRoute('GET', $action . '/create', [$callback, 'create'], $this);
@@ -33,6 +33,25 @@ class ApiRouter extends Router
         new ApiRoute('PUT', $action . '/{id}', [$callback, 'update'], $this);
         new ApiRoute('PATCH', $action . '/{id}', [$callback, 'update'], $this);
         new ApiRoute('DELETE', $action . '/{id}', [$callback, 'destroy'], $this);
+    }
+
+    /**
+     * Create a resource route
+     *
+     * @param string $action
+     * @param string $callback
+     *
+     * @return void
+     */
+    public function resource(string $action, string $callback): void
+    {
+        $this->get($action, [$callback, 'index']);
+        $this->get($action . '/create', [$callback, 'create']);
+        $this->post($action, [$callback, 'store']);
+        $this->get($action . '/{id}', [$callback, 'show']);
+        $this->get($action . '/{id}/edit', [$callback, 'edit']);
+        $this->match(['PUT', 'PATCH'], $action . '/{id}', [$callback, 'destroy']);
+        $this->delete($action . '/{id}', [$callback, 'destroy']);
     }
 
     /**
