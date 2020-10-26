@@ -12,6 +12,13 @@ class View
     protected $dir;
 
     /**
+     * The view.
+     *
+     * @var string
+     */
+    protected $view;
+
+    /**
      * Set the view directory.
      *
      * @param string $path
