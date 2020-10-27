@@ -5,23 +5,22 @@ namespace Genesis\Foundation\Console\Commands;
 use Genesis\Console\GenerateCommand;
 use Illuminate\Support\Str;
 
-class MakeController extends GenerateCommand
+class MakeMiddleware extends GenerateCommand
 {
     /**
      * The command signature.
      *
      * @var string
      */
-    protected $signature = 'make:controller {name : The name of the controller}
-                                            {--resource : Generate a resource controller class}
-                                            {--force : Overwrite the controller if it exists}';
+    protected $signature = 'make:middleware {name : The name of the middleware}
+                                            {--force : Overwrite the middleware if it exists}';
 
     /**
      * The command description.
      *
      * @var string
      */
-    protected $description = 'Make a controller';
+    protected $description = 'Make a new middleware class';
 
     /**
      * Handle the command call.
@@ -35,7 +34,7 @@ class MakeController extends GenerateCommand
         $path = $this->getPath($name);
 
         if ($this->files->exists($path) && !$this->option('force')) {
-            $this->error('Controller already exists!');
+            $this->error('Middleware already exists!');
         }
 
         $this->makeDirectory($path);
@@ -44,7 +43,7 @@ class MakeController extends GenerateCommand
 
         $this->files->put($path, str_replace('{{ class }}', $name, $stub));
 
-        $this->success('Controller created');
+        $this->success('Middleware created');
     }
 
     /**
@@ -54,10 +53,7 @@ class MakeController extends GenerateCommand
      */
     protected function getStub(): string
     {
-        if ($this->option('resource')) {
-            return __DIR__ . '/stubs/controller.resource.stub';
-        }
-        return __DIR__ . '/stubs/controller.stub';
+        return __DIR__ . '/stubs/middleware.stub';
     }
 
     /**
@@ -69,6 +65,6 @@ class MakeController extends GenerateCommand
      */
     protected function getPath(string $name): string
     {
-        return get_template_directory() . "/app/Controllers/{$name}.php";
+        return app()->appPath("/Middleware/{$name}.php");
     }
 }
