@@ -173,6 +173,7 @@ class Application extends Container implements ApplicationContract
         $this->register(new \Genesis\Events\EventServiceProvider($this));
         $this->register(new \Genesis\Filesystem\FilesystemServiceProvider($this));
         $this->register(new \Genesis\Http\HttpServiceProvider($this));
+        $this->register(new \Genesis\Mail\MailServiceProvider($this));
         $this->register(new \Genesis\Routing\RoutingServiceProvider($this));
         $this->register(new \Genesis\View\ViewServiceProvider($this));
         $this->register(new \Genesis\WordPress\WordPressServiceProvider($this));
