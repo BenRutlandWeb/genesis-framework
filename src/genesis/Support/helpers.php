@@ -220,7 +220,6 @@ if (!function_exists('mix')) {
     }
 }
 
-
 if (!function_exists('request')) {
     /**
      * Get an instance of the current request or an input item from the request.

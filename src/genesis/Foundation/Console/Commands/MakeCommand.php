@@ -2,16 +2,24 @@
 
 namespace Genesis\Foundation\Console\Commands;
 
-use Genesis\Console\GenerateCommand;
+use Genesis\Console\GeneratorCommand;
 
-class MakeCommand extends GenerateCommand
+class MakeCommand extends GeneratorCommand
 {
+    /**
+     * The type of class being generated.
+     *
+     * @var string
+     */
+    protected $type = 'Command';
+
     /**
      * The command signature.
      *
      * @var string
      */
-    protected $signature = 'make:command {name : The name of command}
+    protected $signature = 'make:command {name : The command class}
+                                         {--command=command:name : The command}
                                          {--force : Overwrite the command if it exists}';
 
     /**
@@ -22,29 +30,17 @@ class MakeCommand extends GenerateCommand
     protected $description = 'Make a command';
 
     /**
-     * Handle the command call.
+     * Replace the class name for the given stub.
      *
-     * @return void
+     * @param  string  $stub
+     * @param  string  $name
+     * @return string
      */
-    protected function handle(): void
+    protected function replaceClass($stub, $name)
     {
-        $name = $this->argument('name');
+        $stub = parent::replaceClass($stub, $name);
 
-        $path = $this->getPath($name);
-
-        if ($this->files->exists($path) && !$this->option('force')) {
-            $this->error('Command already exists!');
-        }
-
-        $this->makeDirectory($path);
-
-        $stub = $this->files->get($this->getStub());
-
-        $stub = str_replace(['{{ class }}', '{{ command }}'], [$name, strtolower($name)], $stub);
-
-        $this->files->put($path, $stub);
-
-        $this->success('Command created');
+        return str_replace('{{ command }}', $this->option('command'), $stub);
     }
 
     /**
@@ -58,14 +54,13 @@ class MakeCommand extends GenerateCommand
     }
 
     /**
-     * Resolve the filepath.
+     * Get the default namespace for the class.
      *
-     * @param string $name The name of the class.
-     *
+     * @param  string  $rootNamespace
      * @return string
      */
-    protected function getPath(string $name): string
+    protected function getDefaultNamespace($rootNamespace)
     {
-        return app()->appPath("Console/Commands/{$name}.php");
+        return $rootNamespace . '\Console\Commands';
     }
 }
