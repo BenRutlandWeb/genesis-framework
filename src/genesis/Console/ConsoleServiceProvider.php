@@ -57,7 +57,7 @@ class ConsoleServiceProvider extends ServiceProvider
         $console = $this->app->make('console');
 
         foreach ($this->commands as $command) {
-            $console->add($this->app->make($command));
+            $console->add($this->app->make($command)->setApplication($this->app));
         }
 
         $console->load(app_path('Console/Commands'));

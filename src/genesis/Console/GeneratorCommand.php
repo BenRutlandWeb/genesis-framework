@@ -333,7 +333,7 @@ abstract class GeneratorCommand extends Command
      */
     protected function rootNamespace()
     {
-        return 'App\\';
+        return $this->app->getNamespace();
     }
 
     /**

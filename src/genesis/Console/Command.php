@@ -4,6 +4,7 @@ namespace Genesis\Console;
 
 use Genesis\Console\Parser;
 use Genesis\Console\ProgressBar;
+use Genesis\Contracts\Foundation\Application;
 use WP_CLI;
 use function WP_CLI\Utils\format_items as wp_cli_format_items;
 
@@ -57,6 +58,13 @@ abstract class Command
      * @var array
      */
     protected $options = [];
+
+    /**
+     * The application
+     *
+     * @var \Genesis\Contracts\Foundation\Application
+     */
+    protected $app;
 
     /**
      * The command constructor
@@ -322,5 +330,27 @@ abstract class Command
     protected function call(string $command): void
     {
         WP_CLI::runcommand($command);
+    }
+
+    /**
+     * Get the application
+     *
+     * @return \Genesis\Contracts\Foundation\Application
+     */
+    public function getApplication(): Application
+    {
+        return $this->app;
+    }
+
+    /**
+     * Set the application
+     *
+     * @param \Genesis\Contracts\Foundation\Application $app
+     *
+     * @return void
+     */
+    public function setApplication(Application $app): void
+    {
+        $this->app = $app;
     }
 }
