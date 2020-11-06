@@ -112,6 +112,9 @@ class ApiRoute
     public function resolveCallback(): callable
     {
         return function (WP_REST_Request $request) {
+
+            $this->app['request']->merge($request->get_url_params());
+
             return $this->app->call($this->callback, $request->get_url_params());
         };
     }
