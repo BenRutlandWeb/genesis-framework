@@ -41,7 +41,11 @@ class MakeModel extends GeneratorCommand
     {
         $stub = parent::replaceClass($stub, $name);
 
-        return str_replace(['{{ table }}', '{{ postType }}'], Str::snake($name), $stub);
+        return str_replace(
+            ['{{ table }}', '{{ postType }}'],
+            Str::snake($this->argument('name')),
+            $stub
+        );
     }
 
     /**
