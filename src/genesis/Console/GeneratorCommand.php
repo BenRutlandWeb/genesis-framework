@@ -214,7 +214,7 @@ abstract class GeneratorCommand extends Command
             $name = substr_replace($name, '', $position, strlen($this->rootNamespace()));
         }
 
-        return get_template_directory() . '/app/' . str_replace('\\', '/', $name) . '.php';
+        return $this->app->appPath(str_replace('\\', '/', $name) . '.php');
     }
 
     /**
