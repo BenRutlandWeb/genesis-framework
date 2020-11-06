@@ -2,7 +2,7 @@
 
 namespace {{ namespace }};
 
-use {{ rootNamespace }}\{{ event }};
+use {{ rootNamespace }}Events\{{ event }};
 
 class {{ class }}
 {
@@ -19,7 +19,7 @@ class {{ class }}
     /**
      * Handle the event.
      *
-     * @param \App\Events\{{ event }} $event
+     * @param \{{ rootNamespace }}Events\{{ event }} $event
      * @return void
      */
     public function handle({{ event }} $event)
