@@ -63,6 +63,8 @@ class Application
      */
     public function add(Command $command): void
     {
+        $command->setApplication($this->app);
+
         $this->commands[] = $command;
     }
 

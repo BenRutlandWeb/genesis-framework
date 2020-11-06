@@ -14,18 +14,14 @@ class ConsoleServiceProvider extends ServiceProvider
      * @var array
      */
     protected $commands = [
-        #\Genesis\Foundation\Console\Commands\MigrateInstall::class,
-        \Genesis\Foundation\Console\Commands\MakeCommand::class,
-        \Genesis\Foundation\Console\Commands\MakeController::class,
-        #\Genesis\Foundation\Console\Commands\MakeCpt::class,
-        \Genesis\Foundation\Console\Commands\MakeEvent::class,
-        \Genesis\Foundation\Console\Commands\MakeListener::class,
-        \Genesis\Foundation\Console\Commands\MakeMail::class,
-        \Genesis\Foundation\Console\Commands\MakeMiddleware::class,
-        #\Genesis\Foundation\Console\Commands\MakeMigration::class,
-        #\Genesis\Foundation\Console\Commands\MakeModel::class,
-        \Genesis\Foundation\Console\Commands\MakeProvider::class,
-        \Genesis\Foundation\Console\Commands\MakeSubscriber::class,
+        'command.make.command',
+        'command.make.controller',
+        'command.make.event',
+        'command.make.listener',
+        'command.make.mail',
+        'command.make.middleware',
+        'command.make.provider',
+        'command.make.subscriber',
     ];
 
     /**
@@ -39,9 +35,35 @@ class ConsoleServiceProvider extends ServiceProvider
             return new Application($app);
         });
 
-        $this->app->singleton(MigrateInstall::class, function ($app) {
-            return new MigrateInstall($app['migration.repository']);
+        $this->app->singleton('command.make.command', function ($app) {
+            return new \Genesis\Foundation\Console\Commands\MakeCommand($app['files']);
         });
+        $this->app->singleton('command.make.controller', function ($app) {
+            return new \Genesis\Foundation\Console\Commands\MakeController($app['files']);
+        });
+        $this->app->singleton('command.make.event', function ($app) {
+            return new \Genesis\Foundation\Console\Commands\MakeEvent($app['files']);
+        });
+        $this->app->singleton('command.make.listener', function ($app) {
+            return new \Genesis\Foundation\Console\Commands\MakeListener($app['files']);
+        });
+        $this->app->singleton('command.make.mail', function ($app) {
+            return new \Genesis\Foundation\Console\Commands\MakeMail($app['files']);
+        });
+        $this->app->singleton('command.make.middleware', function ($app) {
+            return new \Genesis\Foundation\Console\Commands\MakeMiddleware($app['files']);
+        });
+        $this->app->singleton('command.make.provider', function ($app) {
+            return new \Genesis\Foundation\Console\Commands\MakeProvider($app['files']);
+        });
+        $this->app->singleton('command.make.subscriber', function ($app) {
+            return new \Genesis\Foundation\Console\Commands\MakeSubscriber($app['files']);
+        });
+
+        #\Genesis\Foundation\Console\Commands\MigrateInstall::class,
+        #\Genesis\Foundation\Console\Commands\MakeCpt::class,
+        #\Genesis\Foundation\Console\Commands\MakeMigration::class,
+        #\Genesis\Foundation\Console\Commands\MakeModel::class,
     }
 
     /**
@@ -57,7 +79,7 @@ class ConsoleServiceProvider extends ServiceProvider
         $console = $this->app->make('console');
 
         foreach ($this->commands as $command) {
-            $console->add($this->app->make($command)->setApplication($this->app));
+            $console->add($this->app->make($command));
         }
 
         $console->load(app_path('Console/Commands'));
