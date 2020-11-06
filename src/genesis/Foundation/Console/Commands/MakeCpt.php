@@ -65,7 +65,7 @@ class MakeCpt extends GeneratorCommand
 
         return str_replace(
             ['{{ class }}', '{{ name }}', '{{ public }}', '{{ archive }}', '{{ gutenberg }}', '{{ icon }}'],
-            [$name, Str::lower($name), $public, $archive, $gutenberg, $icon],
+            [$name, Str::lower($this->argument('name')), $public, $archive, $gutenberg, $icon],
             $stub
         );
     }
