@@ -1,6 +1,6 @@
 <?php
 
-namespace { namespace };
+namespace {{ namespace }};
 
 use Genesis\Support\Facades\Schema;
 use Illuminate\Database\Migrations\Migration;
