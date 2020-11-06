@@ -2,49 +2,31 @@
 
 namespace Genesis\Foundation\Console\Commands;
 
-use Genesis\Console\GenerateCommand;
-use Illuminate\Support\Str;
+use Genesis\Console\GeneratorCommand;
 
-class MakeMail extends GenerateCommand
+class MakeMail extends GeneratorCommand
 {
+    /**
+     * The type of class being generated.
+     *
+     * @var string
+     */
+    protected $type = 'Mailable';
+
     /**
      * The command signature.
      *
      * @var string
      */
-    protected $signature = 'make:mail {name : The name of the mailable}
-                                      {--force : Overwrite the mailable if it exists}';
+    protected $signature = 'make:mail {name : The name of the mailable class}
+                                      {--force : Overwrite the mailable class if it exists}';
 
     /**
      * The command description.
      *
      * @var string
      */
-    protected $description = 'Make a mailable';
-
-    /**
-     * Handle the command call.
-     *
-     * @return void
-     */
-    protected function handle(): void
-    {
-        $name = Str::studly($this->argument('name'));
-
-        $path = $this->getPath($name);
-
-        if ($this->files->exists($path) && !$this->option('force')) {
-            $this->error('Mailable already exists!');
-        }
-
-        $this->makeDirectory($path);
-
-        $stub = $this->files->get($this->getStub());
-
-        $this->files->put($path, str_replace('{{ class }}', $name, $stub));
-
-        $this->success('Mailable created');
-    }
+    protected $description = 'Make a mailable class';
 
     /**
      * Get the stub path.
@@ -57,14 +39,13 @@ class MakeMail extends GenerateCommand
     }
 
     /**
-     * Resolve the filepath.
+     * Get the default namespace for the class.
      *
-     * @param string $name The name of the class.
-     *
+     * @param  string  $rootNamespace
      * @return string
      */
-    protected function getPath(string $name): string
+    protected function getDefaultNamespace($rootNamespace)
     {
-        return app()->appPath("/Mail/{$name}.php");
+        return $rootNamespace . '\Mail';
     }
 }

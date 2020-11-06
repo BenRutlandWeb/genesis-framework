@@ -2,11 +2,17 @@
 
 namespace Genesis\Foundation\Console\Commands;
 
-use Genesis\Console\GenerateCommand;
-use Illuminate\Support\Str;
+use Genesis\Console\GeneratorCommand;
 
-class MakeMiddleware extends GenerateCommand
+class MakeMiddleware extends GeneratorCommand
 {
+    /**
+     * The type of class being generated.
+     *
+     * @var string
+     */
+    protected $type = 'Middleware';
+
     /**
      * The command signature.
      *
@@ -23,30 +29,6 @@ class MakeMiddleware extends GenerateCommand
     protected $description = 'Make a new middleware class';
 
     /**
-     * Handle the command call.
-     *
-     * @return void
-     */
-    protected function handle(): void
-    {
-        $name = Str::studly($this->argument('name'));
-
-        $path = $this->getPath($name);
-
-        if ($this->files->exists($path) && !$this->option('force')) {
-            $this->error('Middleware already exists!');
-        }
-
-        $this->makeDirectory($path);
-
-        $stub = $this->files->get($this->getStub());
-
-        $this->files->put($path, str_replace('{{ class }}', $name, $stub));
-
-        $this->success('Middleware created');
-    }
-
-    /**
      * Get the stub path.
      *
      * @return string
@@ -57,14 +39,13 @@ class MakeMiddleware extends GenerateCommand
     }
 
     /**
-     * Resolve the filepath.
+     * Get the default namespace for the class.
      *
-     * @param string $name The name of the class.
-     *
+     * @param  string  $rootNamespace
      * @return string
      */
-    protected function getPath(string $name): string
+    protected function getDefaultNamespace($rootNamespace)
     {
-        return app()->appPath("/Middleware/{$name}.php");
+        return $rootNamespace . '\Http\Middleware';
     }
 }

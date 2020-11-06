@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Console\Commands;
+namespace {{ namespace }};
 
-use Genesis\Console\Command;
+use LaraPress\Console\Command;
 
 class {{ class }} extends Command
 {
@@ -18,7 +18,7 @@ class {{ class }} extends Command
      *
      * @var string
      */
-    protected $description = '';
+    protected $description = 'Command description';
 
     /**
      * Handle the command call.

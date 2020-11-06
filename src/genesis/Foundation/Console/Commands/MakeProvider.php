@@ -2,10 +2,17 @@
 
 namespace Genesis\Foundation\Console\Commands;
 
-use Genesis\Console\GenerateCommand;
+use Genesis\Console\GeneratorCommand;
 
-class MakeProvider extends GenerateCommand
+class MakeProvider extends GeneratorCommand
 {
+    /**
+     * The type of class being generated.
+     *
+     * @var string
+     */
+    protected $type = 'Provider';
+
     /**
      * The command signature.
      *
@@ -22,32 +29,6 @@ class MakeProvider extends GenerateCommand
     protected $description = 'Make a provider';
 
     /**
-     * Handle the command call.
-     *
-     * @return void
-     */
-    protected function handle(): void
-    {
-        $name = $this->argument('name');
-
-        $path = $this->getPath($name);
-
-        if ($this->files->exists($path) && !$this->option('force')) {
-            $this->error('Provider already exists!');
-        }
-
-        $this->makeDirectory($path);
-
-        $stub = $this->files->get($this->getStub());
-
-        $stub = str_replace('{{ class }}', $name, $stub);
-
-        $this->files->put($path, $stub);
-
-        $this->success('Provider created');
-    }
-
-    /**
      * Get the stub path.
      *
      * @return string
@@ -58,14 +39,13 @@ class MakeProvider extends GenerateCommand
     }
 
     /**
-     * Resolve the filepath.
+     * Get the default namespace for the class.
      *
-     * @param string $name The name of the class.
-     *
+     * @param  string  $rootNamespace
      * @return string
      */
-    protected function getPath(string $name): string
+    protected function getDefaultNamespace($rootNamespace)
     {
-        return app()->appPath("Providers/{$name}.php");
+        return $rootNamespace . '\Providers';
     }
 }

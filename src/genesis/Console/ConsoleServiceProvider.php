@@ -16,15 +16,16 @@ class ConsoleServiceProvider extends ServiceProvider
     protected $commands = [
         #\Genesis\Foundation\Console\Commands\MigrateInstall::class,
         \Genesis\Foundation\Console\Commands\MakeCommand::class,
-        #\Genesis\Foundation\Console\Commands\MakeController::class,
+        \Genesis\Foundation\Console\Commands\MakeController::class,
         #\Genesis\Foundation\Console\Commands\MakeCpt::class,
-        #\Genesis\Foundation\Console\Commands\MakeEvent::class,
-        #\Genesis\Foundation\Console\Commands\MakeMail::class,
-        #\Genesis\Foundation\Console\Commands\MakeMiddleware::class,
+        \Genesis\Foundation\Console\Commands\MakeEvent::class,
+        \Genesis\Foundation\Console\Commands\MakeListener::class,
+        \Genesis\Foundation\Console\Commands\MakeMail::class,
+        \Genesis\Foundation\Console\Commands\MakeMiddleware::class,
         #\Genesis\Foundation\Console\Commands\MakeMigration::class,
         #\Genesis\Foundation\Console\Commands\MakeModel::class,
-        #\Genesis\Foundation\Console\Commands\MakeListener::class,
-        #\Genesis\Foundation\Console\Commands\MakeSubscriber::class,
+        \Genesis\Foundation\Console\Commands\MakeProvider::class,
+        \Genesis\Foundation\Console\Commands\MakeSubscriber::class,
     ];
 
     /**

@@ -2,11 +2,17 @@
 
 namespace Genesis\Foundation\Console\Commands;
 
-use Genesis\Console\GenerateCommand;
-use Illuminate\Support\Str;
+use Genesis\Console\GeneratorCommand;
 
-class MakeListener extends GenerateCommand
+class MakeListener extends GeneratorCommand
 {
+    /**
+     * The type of class being generated.
+     *
+     * @var string
+     */
+    protected $type = 'Listener';
+
     /**
      * The command signature.
      *
@@ -24,28 +30,17 @@ class MakeListener extends GenerateCommand
     protected $description = 'Make a listener';
 
     /**
-     * Handle the command call.
+     * Replace the class name for the given stub.
      *
-     * @return void
+     * @param  string  $stub
+     * @param  string  $name
+     * @return string
      */
-    protected function handle(): void
+    protected function replaceClass($stub, $name)
     {
-        $name = Str::studly($this->argument('name'));
-        $event = Str::studly($this->option('event'));
+        $stub = parent::replaceClass($stub, $name);
 
-        $path = $this->getPath($name);
-
-        if ($this->files->exists($path) && !$this->option('force')) {
-            $this->error('Listener already exists!');
-        }
-
-        $this->makeDirectory($path);
-
-        $stub = $this->files->get($this->getStub());
-
-        $this->files->put($path, str_replace(['{{ class }}', '{{ event }}'], [$name, $event], $stub));
-
-        $this->success('Listener created');
+        return str_replace('{{ event }}', $this->option('event'), $stub);
     }
 
     /**
@@ -62,14 +57,13 @@ class MakeListener extends GenerateCommand
     }
 
     /**
-     * Resolve the filepath.
+     * Get the default namespace for the class.
      *
-     * @param string $name The name of the class.
-     *
+     * @param  string  $rootNamespace
      * @return string
      */
-    protected function getPath(string $name): string
+    protected function getDefaultNamespace($rootNamespace)
     {
-        return app()->appPath("Listeners/{$name}.php");
+        return $rootNamespace . '\Listeners';
     }
 }

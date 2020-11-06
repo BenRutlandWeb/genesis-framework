@@ -2,11 +2,17 @@
 
 namespace Genesis\Foundation\Console\Commands;
 
-use Genesis\Console\GenerateCommand;
-use Illuminate\Support\Str;
+use Genesis\Console\GeneratorCommand;
 
-class MakeSubscriber extends GenerateCommand
+class MakeSubscriber extends GeneratorCommand
 {
+    /**
+     * The type of class being generated.
+     *
+     * @var string
+     */
+    protected $type = 'Subscriber';
+
     /**
      * The command signature.
      *
@@ -23,30 +29,6 @@ class MakeSubscriber extends GenerateCommand
     protected $description = 'Make an event subscriber';
 
     /**
-     * Handle the command call.
-     *
-     * @return void
-     */
-    protected function handle(): void
-    {
-        $name = Str::studly($this->argument('name'));
-
-        $path = $this->getPath($name);
-
-        if ($this->files->exists($path) && !$this->option('force')) {
-            $this->error('Subscriber already exists!');
-        }
-
-        $this->makeDirectory($path);
-
-        $stub = $this->files->get($this->getStub());
-
-        $this->files->put($path, str_replace('{{ class }}', $name, $stub));
-
-        $this->success('Subscriber created');
-    }
-
-    /**
      * Get the stub path.
      *
      * @return string
@@ -57,14 +39,13 @@ class MakeSubscriber extends GenerateCommand
     }
 
     /**
-     * Resolve the filepath.
+     * Get the default namespace for the class.
      *
-     * @param string $name The name of the class.
-     *
+     * @param  string  $rootNamespace
      * @return string
      */
-    protected function getPath(string $name): string
+    protected function getDefaultNamespace($rootNamespace)
     {
-        return app()->appPath("Listeners/{$name}.php");
+        return $rootNamespace . '\Listeners';
     }
 }
