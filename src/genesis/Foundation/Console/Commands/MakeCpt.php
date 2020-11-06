@@ -2,11 +2,18 @@
 
 namespace Genesis\Foundation\Console\Commands;
 
-use Genesis\Console\GenerateCommand;
+use Genesis\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
-class MakeCpt extends GenerateCommand
+class MakeCpt extends GeneratorCommand
 {
+    /**
+     * The type of class being generated.
+     *
+     * @var string
+     */
+    protected $type = 'Command';
+
     /**
      * The command signature.
      *
@@ -24,35 +31,43 @@ class MakeCpt extends GenerateCommand
     protected $description = 'Make a custom post type';
 
     /**
-     * Handle the command call.
+     * Handle making the model
+     *
+     * @param string $name
      *
      * @return void
      */
     protected function handle(): void
     {
-        $name = Str::studly($this->argument('name'));
+        parent::handle();
 
-        $path = $this->getPath($name);
+        $name = $this->argument('name');
 
-        if ($this->files->exists($path) && !$this->option('force')) {
-            $this->error('Post type already exists!');
+        if ($this->option('model') && $this->option('force')) {
+            $this->call("make:model {$name} --posttype --force");
+        } else if ($this->option('model')) {
+            $this->call("make:model {$name} --posttype");
         }
+    }
 
-        $this->makeDirectory($path);
-
-        $stub = $this->files->get($this->getStub());
+    /**
+     * Replace the class name for the given stub.
+     *
+     * @param  string  $stub
+     * @param  string  $name
+     * @return string
+     */
+    protected function replaceClass($stub, $name)
+    {
+        $stub = parent::replaceClass($stub, $name);
 
         [$public, $archive, $gutenberg, $icon] = $this->userFeedback();
 
-        $this->files->put($path, str_replace(
+        return str_replace(
             ['{{ class }}', '{{ name }}', '{{ public }}', '{{ archive }}', '{{ gutenberg }}', '{{ icon }}'],
             [$name, Str::lower($name), $public, $archive, $gutenberg, $icon],
             $stub
-        ));
-
-        $this->success('Post type created');
-
-        $this->handleModel($name);
+        );
     }
 
     /**
@@ -60,7 +75,7 @@ class MakeCpt extends GenerateCommand
      *
      * @return array
      */
-    public function userFeedback(): array
+    protected function userFeedback(): array
     {
         return [
             $this->confirm('Is public:') ? 'true' : 'false',
@@ -68,22 +83,6 @@ class MakeCpt extends GenerateCommand
             $this->confirm('Use block editor:') ? 'true' : 'false',
             $this->ask('Icon:'),
         ];
-    }
-
-    /**
-     * Handle making the model
-     *
-     * @param string $name
-     *
-     * @return void
-     */
-    protected function handleModel(string $name): void
-    {
-        if ($this->option('model') && $this->option('force')) {
-            $this->call("make:model {$name} --posttype --force");
-        } else if ($this->option('model')) {
-            $this->call("make:model {$name} --posttype");
-        }
     }
 
     /**
@@ -97,14 +96,13 @@ class MakeCpt extends GenerateCommand
     }
 
     /**
-     * Resolve the filepath.
+     * Get the default namespace for the class.
      *
-     * @param string $name The name of the class.
-     *
+     * @param  string  $rootNamespace
      * @return string
      */
-    protected function getPath(string $name): string
+    protected function getDefaultNamespace($rootNamespace)
     {
-        return app()->appPath("Cpts/{$name}.php");
+        return $rootNamespace . '\Cpts';
     }
 }

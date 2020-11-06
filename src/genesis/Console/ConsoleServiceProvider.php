@@ -16,6 +16,7 @@ class ConsoleServiceProvider extends ServiceProvider
     protected $commands = [
         'command.make.command',
         'command.make.controller',
+        'command.make.cpt',
         'command.make.event',
         'command.make.listener',
         'command.make.mail',
@@ -42,6 +43,9 @@ class ConsoleServiceProvider extends ServiceProvider
         $this->app->singleton('command.make.controller', function ($app) {
             return new \Genesis\Foundation\Console\Commands\MakeController($app['files']);
         });
+        $this->app->singleton('command.make.cpt', function ($app) {
+            return new \Genesis\Foundation\Console\Commands\MakeCpt($app['files']);
+        });
         $this->app->singleton('command.make.event', function ($app) {
             return new \Genesis\Foundation\Console\Commands\MakeEvent($app['files']);
         });
@@ -65,7 +69,6 @@ class ConsoleServiceProvider extends ServiceProvider
         });
 
         #\Genesis\Foundation\Console\Commands\MigrateInstall::class,
-        #\Genesis\Foundation\Console\Commands\MakeCpt::class,
         #\Genesis\Foundation\Console\Commands\MakeMigration::class,
     }
 
