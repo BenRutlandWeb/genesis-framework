@@ -20,6 +20,7 @@ class ConsoleServiceProvider extends ServiceProvider
         'command.make.listener',
         'command.make.mail',
         'command.make.middleware',
+        'command.make.model',
         'command.make.provider',
         'command.make.subscriber',
     ];
@@ -53,6 +54,9 @@ class ConsoleServiceProvider extends ServiceProvider
         $this->app->singleton('command.make.middleware', function ($app) {
             return new \Genesis\Foundation\Console\Commands\MakeMiddleware($app['files']);
         });
+        $this->app->singleton('command.make.model', function ($app) {
+            return new \Genesis\Foundation\Console\Commands\MakeModel($app['files']);
+        });
         $this->app->singleton('command.make.provider', function ($app) {
             return new \Genesis\Foundation\Console\Commands\MakeProvider($app['files']);
         });
@@ -63,7 +67,6 @@ class ConsoleServiceProvider extends ServiceProvider
         #\Genesis\Foundation\Console\Commands\MigrateInstall::class,
         #\Genesis\Foundation\Console\Commands\MakeCpt::class,
         #\Genesis\Foundation\Console\Commands\MakeMigration::class,
-        #\Genesis\Foundation\Console\Commands\MakeModel::class,
     }
 
     /**

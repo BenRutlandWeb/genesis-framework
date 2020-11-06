@@ -11,5 +11,5 @@ class {{ class }} extends PostType
      *
      * @var array|string
      */
-    public $postType = '{{ table }}';
+    public $postType = '{{ postType }}';
 }

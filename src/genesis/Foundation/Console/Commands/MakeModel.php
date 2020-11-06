@@ -2,11 +2,18 @@
 
 namespace Genesis\Foundation\Console\Commands;
 
-use Genesis\Console\GenerateCommand;
+use Genesis\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 
-class MakeModel extends GenerateCommand
+class MakeModel extends GeneratorCommand
 {
+    /**
+     * The type of class being generated.
+     *
+     * @var string
+     */
+    protected $type = 'Model';
+
     /**
      * The command signature.
      *
@@ -24,27 +31,17 @@ class MakeModel extends GenerateCommand
     protected $description = 'Make a model';
 
     /**
-     * Handle the command call.
+     * Replace the class name for the given stub.
      *
-     * @return void
+     * @param  string  $stub
+     * @param  string  $name
+     * @return string
      */
-    protected function handle(): void
+    protected function replaceClass($stub, $name)
     {
-        $name = Str::studly($this->argument('name'));
+        $stub = parent::replaceClass($stub, $name);
 
-        $path = $this->getPath($name);
-
-        if ($this->files->exists($path) && !$this->option('force')) {
-            $this->error('Model already exists!');
-        }
-
-        $this->makeDirectory($path);
-
-        $stub = $this->files->get($this->getStub());
-
-        $this->files->put($path, str_replace(['{{ class }}', '{{ table }}'], [$name, Str::snake($name)], $stub));
-
-        $this->success('Model created');
+        return str_replace(['{{ table }}', '{{ postType }}'], Str::snake($name), $stub);
     }
 
     /**
@@ -61,14 +58,13 @@ class MakeModel extends GenerateCommand
     }
 
     /**
-     * Resolve the filepath.
+     * Get the default namespace for the class.
      *
-     * @param string $name The name of the class.
-     *
+     * @param  string  $rootNamespace
      * @return string
      */
-    protected function getPath(string $name): string
+    protected function getDefaultNamespace($rootNamespace)
     {
-        return app()->appPath("Models/{$name}.php");
+        return $rootNamespace . '\Models';
     }
 }
