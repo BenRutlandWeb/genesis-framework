@@ -17,8 +17,7 @@ class HttpServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton('request', function () {
-            $headers = function_exists('getallheaders') ? getallheaders() : [];
-            return new Request($_GET, $_POST, $_FILES, $_COOKIE, $_SERVER, $headers, file_get_contents('php://input'));
+            return new Request($_GET, $_POST, [], $_COOKIE, $_FILES, $_SERVER);
         });
 
         $this->app->singleton('response', function () {
