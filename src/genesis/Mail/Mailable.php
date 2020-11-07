@@ -5,8 +5,8 @@ namespace Genesis\Mail;
 use Closure;
 use ReflectionClass;
 use ReflectionProperty;
+use Genesis\Database\Models\User;
 use Illuminate\Support\Collection;
-use WPEloquent\Models\User;
 use WP_User;
 
 /**
@@ -162,7 +162,7 @@ abstract class Mailable
     /**
      * Resolve the email address from a user
      *
-     * @param \WPEloquent\Models\User|\WP_User|string $user The user to resolve
+     * @param \Genesis\Database\Models\User|\WP_User|string $user The user to resolve
      *
      * @return void
      */
