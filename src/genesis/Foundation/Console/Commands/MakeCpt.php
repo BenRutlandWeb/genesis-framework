@@ -41,6 +41,8 @@ class MakeCpt extends GeneratorCommand
     {
         parent::handle();
 
+        flush_rewrite_rules();
+
         $name = $this->argument('name');
 
         if ($this->option('model') && $this->option('force')) {
