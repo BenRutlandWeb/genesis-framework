@@ -154,7 +154,7 @@ abstract class Mailable
     {
         $this->header('Content-Type: text/html; charset=UTF-8');
 
-        $this->message = view($path, $this->buildViewData($data));
+        $this->message = (string) view($path, $this->buildViewData($data));
 
         return $this;
     }
