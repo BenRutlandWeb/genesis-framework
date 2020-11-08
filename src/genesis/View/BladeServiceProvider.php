@@ -24,7 +24,10 @@ class BladeServiceProvider extends ServiceProvider
         $blade->directive('body_open', function () {
             return '<?php wp_body_open(); ?>';
         });
-        $blade->directive('loop', function () {
+        $blade->directive('loop', function ($view = '') {
+            if ($view) {
+                return "<?php if(have_posts()) : while(have_posts()) : the_post(); echo \$__env->make($view)->render(); endwhile; endif; ?>";
+            }
             return '<?php if(have_posts()) : while(have_posts()) : the_post(); ?>';
         });
         $blade->directive('endloop', function () {
