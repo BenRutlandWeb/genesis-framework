@@ -3,9 +3,9 @@
 namespace Genesis\WordPress;
 
 use ReflectionClass;
-use Genesis\Support\ServiceProvider;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Finder\Finder;
 use WP_User;
 

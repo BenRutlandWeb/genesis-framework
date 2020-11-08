@@ -3,7 +3,7 @@
 namespace Genesis\Foundation\Support\Providers;
 
 use Genesis\Support\Facades\Event;
-use Genesis\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -20,16 +20,6 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $subscribe = [];
-
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register(): void
-    {
-        # code...
-    }
 
     /**
      * Register the service provider.

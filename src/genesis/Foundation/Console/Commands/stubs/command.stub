@@ -2,7 +2,7 @@
 
 namespace {{ namespace }};
 
-use LaraPress\Console\Command;
+use Genesis\Console\Command;
 
 class {{ class }} extends Command
 {

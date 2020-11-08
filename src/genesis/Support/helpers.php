@@ -2,8 +2,10 @@
 
 use Genesis\Auth\Auth;
 use Genesis\Foundation\Application;
+use Genesis\Foundation\Mix;
 use Genesis\Http\Request;
 use Genesis\Http\Response;
+use Illuminate\Contracts\View\Factory as ViewFactory;
 
 if (!function_exists('ajax')) {
     /**
@@ -44,7 +46,7 @@ if (!function_exists('app_path')) {
      */
     function app_path(string $path = ''): string
     {
-        return app()->appPath($path);
+        return app()->path($path);
     }
 }
 
@@ -201,22 +203,32 @@ if (!function_exists('method_field')) {
 
 if (!function_exists('mix')) {
     /**
-     * Return the mix path.
+     * Get the path to a versioned Mix file.
      *
-     * @param string $method   The HTTP method
-     * @param bool   $absolute Return an absolute URL or not
+     * @param  string  $path
+     * @param  string  $manifestDirectory
+     * @return \Illuminate\Support\HtmlString|string
+     *
+     * @throws \Exception
+     */
+    function mix($path)
+    {
+        return app(Mix::class)($path);
+    }
+}
+
+
+if (!function_exists('public_path')) {
+    /**
+     * Return the resource path.
+     *
+     * @param string $path
      *
      * @return string
      */
-    function mix(string $path, bool $absolute = true): string
+    function public_path(string $path = ''): string
     {
-        $file = app('files')->get(app()->basePath('assets/mix-manifest.json'));
-
-        $json = json_decode($file);
-
-        $path = '/' . trim($path, '/');
-
-        return asset(trim($json->$path ?? $path, '/'), $absolute);
+        return app()->publicPath($path);
     }
 }
 
@@ -241,6 +253,20 @@ if (!function_exists('request')) {
     }
 }
 
+if (!function_exists('resource_path')) {
+    /**
+     * Return the resource path.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    function resource_path(string $path = ''): string
+    {
+        return app()->resourcePath($path);
+    }
+}
+
 if (!function_exists('response')) {
     /**
      * Get an instance of the current request or an input item from the request.
@@ -255,6 +281,20 @@ if (!function_exists('response')) {
             return app('response')->content($content);
         }
         return app('response');
+    }
+}
+
+if (!function_exists('storage_path')) {
+    /**
+     * Return the resource path.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    function storage_path(string $path = ''): string
+    {
+        return app()->storagePath($path);
     }
 }
 
@@ -275,16 +315,22 @@ if (!function_exists('url')) {
 
 if (!function_exists('view')) {
     /**
-     * Return a view.
+     * Get the evaluated view contents for the given view.
      *
-     * @param string  $view
-     * @param array   $args
-     *
-     * @return string
+     * @param  string|null  $view
+     * @param  \Illuminate\Contracts\Support\Arrayable|array  $data
+     * @param  array  $mergeData
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
-    function view(string $view, array $args = [])
+    function view($view = null, $data = [], $mergeData = [])
     {
-        return app('view')->make($view, $args);
+        $factory = app(ViewFactory::class);
+
+        if (func_num_args() === 0) {
+            return $factory;
+        }
+
+        return $factory->make($view, $data, $mergeData);
     }
 }
 

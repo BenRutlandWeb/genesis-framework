@@ -2,10 +2,10 @@
 
 namespace Genesis\Database;
 
-use Genesis\Support\ServiceProvider;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Migrations\DatabaseMigrationRepository;
+use Illuminate\Support\ServiceProvider;
 
 class DatabaseServiceProvider extends ServiceProvider
 {
@@ -27,7 +27,7 @@ class DatabaseServiceProvider extends ServiceProvider
 
         $this->app->singleton('db', function ($app) {
 
-            $app['db.capsule']->addConnection($app['config']->get('db'));
+            $app['db.capsule']->addConnection($app['config']->get('database'));
 
             $app['db.capsule']->bootEloquent();
 
@@ -43,7 +43,7 @@ class DatabaseServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton('migration.repository', function ($app) {
-            return new DatabaseMigrationRepository($app['db'], $app['config']->get('migrations'));
+            return new DatabaseMigrationRepository($app['db'], $app['config']->get('database.migrations'));
         });
     }
 
@@ -55,5 +55,7 @@ class DatabaseServiceProvider extends ServiceProvider
     public function boot()
     {
         Model::setConnectionResolver($this->app['db']);
+
+        Model::setEventDispatcher($this->app['events']);
     }
 }

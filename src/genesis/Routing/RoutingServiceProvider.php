@@ -2,7 +2,7 @@
 
 namespace Genesis\Routing;
 
-use Genesis\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class RoutingServiceProvider extends ServiceProvider
 {

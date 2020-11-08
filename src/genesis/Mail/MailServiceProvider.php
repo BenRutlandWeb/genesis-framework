@@ -2,7 +2,7 @@
 
 namespace Genesis\Mail;
 
-use Genesis\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class MailServiceProvider extends ServiceProvider
 {

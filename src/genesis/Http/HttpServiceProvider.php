@@ -5,7 +5,7 @@ namespace Genesis\Http;
 use Genesis\Http\Request;
 use Genesis\Http\Response;
 use Genesis\Http\VerifyCsrfToken;
-use Genesis\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class HttpServiceProvider extends ServiceProvider
 {

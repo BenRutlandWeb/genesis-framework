@@ -2,7 +2,7 @@
 
 namespace Genesis\View;
 
-use Genesis\Support\ServiceProvider;
+use Illuminate\View\ViewServiceProvider as ServiceProvider;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -11,12 +11,21 @@ class ViewServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register(): void
+    public function register()
     {
-        $this->app->singleton('view', function ($app) {
-            return new View($app->basePath('templates'));
-        });
+        parent::register();
 
-        $this->app->instance('view.redirect', new TemplateRedirect());
+        $this->app->singleton('view.redirect', function ($app) {
+            return new TemplateRedirect($app);
+        });
+    }
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->app->make('view.redirect');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace {{ namespace }};
 
-use Genesis\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class {{ class }} extends ServiceProvider
 {

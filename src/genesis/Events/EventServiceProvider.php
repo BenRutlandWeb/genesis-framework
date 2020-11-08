@@ -3,7 +3,7 @@
 namespace Genesis\Events;
 
 use Genesis\Events\Dispatcher;
-use Genesis\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
 {

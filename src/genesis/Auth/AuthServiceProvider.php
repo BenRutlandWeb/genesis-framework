@@ -2,7 +2,7 @@
 
 namespace Genesis\Auth;
 
-use Genesis\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {

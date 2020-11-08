@@ -3,14 +3,14 @@
 namespace Genesis\Console;
 
 use Genesis\Console\Command;
-use Genesis\Filesystem\Filesystem;
+use Illuminate\Filesystem\Filesystem;
 
 abstract class GeneratorCommand extends Command
 {
     /**
      * The filesystem.
      *
-     * @var \Genesis\Filesystem\Filesystem
+     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
@@ -99,6 +99,8 @@ abstract class GeneratorCommand extends Command
 
     /**
      * Assign the filesystem and call the parent contructor.
+     *
+     * @param \Illuminate\Filesystem\Filesystem $files
      *
      * @return void
      */
@@ -214,7 +216,7 @@ abstract class GeneratorCommand extends Command
             $name = substr_replace($name, '', $position, strlen($this->rootNamespace()));
         }
 
-        return $this->app->appPath(str_replace('\\', '/', $name) . '.php');
+        return $this->app->path(str_replace('\\', '/', $name) . '.php');
     }
 
     /**

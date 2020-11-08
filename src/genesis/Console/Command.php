@@ -4,7 +4,7 @@ namespace Genesis\Console;
 
 use Genesis\Console\Parser;
 use Genesis\Console\ProgressBar;
-use Genesis\Contracts\Foundation\Application;
+use Illuminate\Contracts\Foundation\Application;
 use WP_CLI;
 use function WP_CLI\Utils\format_items as wp_cli_format_items;
 
@@ -62,7 +62,7 @@ abstract class Command
     /**
      * The application
      *
-     * @var \Genesis\Contracts\Foundation\Application
+     * @var \Illuminate\Contracts\Foundation\Application
      */
     protected $app;
 
@@ -335,7 +335,7 @@ abstract class Command
     /**
      * Get the application
      *
-     * @return \Genesis\Contracts\Foundation\Application
+     * @return \Illuminate\Contracts\Foundation\Application
      */
     public function getApplication(): Application
     {
@@ -345,7 +345,7 @@ abstract class Command
     /**
      * Set the application
      *
-     * @param \Genesis\Contracts\Foundation\Application $app
+     * @param \Illuminate\Contracts\Foundation\Application $app
      *
      * @return void
      */

@@ -3,8 +3,7 @@
 namespace Genesis\Console;
 
 use Genesis\Console\Application;
-use Genesis\Foundation\Console\Commands\MigrateInstall;
-use Genesis\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class ConsoleServiceProvider extends ServiceProvider
 {

@@ -2,7 +2,7 @@
 
 namespace Genesis\Routing;
 
-use Genesis\Foundation\Application;
+use Illuminate\Contracts\Foundation\Application;
 use Genesis\Routing\Router;
 use WP_REST_Request;
 
@@ -39,17 +39,18 @@ class ApiRoute
     /**
      * The app instance
      *
-     * @var \Genesis\Foundation\Application
+     * @var \Illuminate\Contracts\Foundation\Application
      */
     protected $app;
 
     /**
      * Create the route instance
      *
-     * @param string                  $method
-     * @param string                  $route
-     * @param callable|string         $callback
-     * @param \Genesis\Routing\Router $router
+     * @param string                                      $method
+     * @param string                                      $route
+     * @param callable|string                             $callback
+     * @param \Genesis\Routing\Router                     $router
+     * @param Illuminate\Contracts\Foundation\Application $app
      */
     public function __construct(string $method, string $route, $callback, Router $router, Application $app)
     {

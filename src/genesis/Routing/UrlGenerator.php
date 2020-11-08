@@ -73,7 +73,7 @@ class UrlGenerator
      */
     public function asset(string $path, bool $absolute = true): string
     {
-        return ($absolute ? get_template_directory_uri() : '') . '/assets/' . $path;
+        return ($absolute ? get_template_directory_uri() : '') . '/dist/' . $path;
     }
 
     /**
