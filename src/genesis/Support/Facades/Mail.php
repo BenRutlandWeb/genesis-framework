@@ -2,7 +2,7 @@
 
 namespace Genesis\Support\Facades;
 
-use Genesis\Support\Facades\Facade;
+use Illuminate\Support\Facades\Facade;
 
 class Mail extends Facade
 {
