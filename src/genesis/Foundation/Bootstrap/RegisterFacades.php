@@ -2,9 +2,9 @@
 
 namespace Genesis\Foundation\Bootstrap;
 
-use Illuminate\Contracts\Foundation\Application;
 use Genesis\Foundation\AliasLoader;
-use Genesis\Support\Facades\Facade;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Facades\Facade;
 
 class RegisterFacades
 {
