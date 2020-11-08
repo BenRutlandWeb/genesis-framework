@@ -113,7 +113,7 @@ if (!function_exists('csrf_field')) {
      */
     function csrf_field(): string
     {
-        return wp_nonce_field('_token', '_token');
+        return wp_nonce_field('_token', '_token', true, false);
     }
 }
 
@@ -193,11 +193,11 @@ if (!function_exists('method_field')) {
      *
      * @param string $method The HTTP method
      *
-     * @return void
+     * @return string
      */
-    function method_field(string $method): void
+    function method_field(string $method): string
     {
-        echo '<input type="hidden" name="_method" value="' . esc_attr($method) . '" />';
+        return '<input type="hidden" name="_method" value="' . esc_attr($method) . '" />';
     }
 }
 
