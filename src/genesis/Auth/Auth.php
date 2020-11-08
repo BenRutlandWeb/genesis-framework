@@ -65,7 +65,7 @@ class Auth
                 'remember'      => $remember ?? false,
             ];
         }
-        $user = wp_signon($login);
+        $user = wp_signon($login->toArray());
 
         if (!is_wp_error($user)) {
             return User::find($user->ID);

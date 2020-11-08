@@ -31,7 +31,7 @@ class BladeServiceProvider extends ServiceProvider
             return '<?php if(have_posts()) : while(have_posts()) : the_post(); ?>';
         });
         $blade->directive('endloop', function () {
-            return "<?php endwhile; endif; ?>";
+            return '<?php endwhile; endif; ?>';
         });
     }
 }

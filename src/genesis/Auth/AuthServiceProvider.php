@@ -14,7 +14,24 @@ class AuthServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton('auth', function () {
-            return new \Genesis\Auth\Auth();
+            return new Auth();
+        });
+    }
+
+    /**
+     * Add blade directives
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $blade = $this->app->make('blade.compiler');
+
+        $blade->if('auth', function () {
+            return $this->app['auth']->check();
+        });
+        $blade->if('guest', function () {
+            return $this->app['auth']->guest();
         });
     }
 }
