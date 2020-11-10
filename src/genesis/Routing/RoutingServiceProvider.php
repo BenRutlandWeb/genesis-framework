@@ -18,8 +18,8 @@ class RoutingServiceProvider extends ServiceProvider
         });
         $this->app->singleton(AjaxRouter::class);
 
-        $this->app->singleton('router.api', function ($app) {
-            return new ApiRouter($app);
-        });
+        $this->app->singleton(RestRouter::class);
+
+        $this->app->singleton(\Illuminate\Contracts\Routing\Registrar::class, RestRouter::class);
     }
 }

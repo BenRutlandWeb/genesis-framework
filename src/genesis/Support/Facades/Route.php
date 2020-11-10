@@ -2,6 +2,7 @@
 
 namespace Genesis\Support\Facades;
 
+use Genesis\Routing\RestRouter;
 use Illuminate\Support\Facades\Facade;
 
 class Route extends Facade
@@ -13,6 +14,6 @@ class Route extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return 'router.api';
+        return RestRouter::class;
     }
 }

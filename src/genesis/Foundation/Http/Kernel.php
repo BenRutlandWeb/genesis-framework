@@ -2,8 +2,10 @@
 
 namespace Genesis\Foundation\Http;
 
-use Illuminate\Contracts\Foundation\Application;
 use Genesis\Routing\AjaxRouter;
+use Genesis\Routing\RestRouter;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Routing\Router;
 
 class Kernel
 {
@@ -17,9 +19,9 @@ class Kernel
     /**
      * The router instance.
      *
-     * @var \Genesis\Routing\AjaxRouter
+     * @var array
      */
-    protected $router;
+    protected $routers = [];
 
     /**
      * The bootstrap classes for the application.
@@ -75,15 +77,17 @@ class Kernel
      * Create a new HTTP kernel instance.
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @param  \Genesis\Routing\AjaxRouter  $router
+     * @param  \Genesis\Routing\AjaxRouter  $ajaxRouter
+     * @param  \Genesis\Routing\RestRouter  $restRouter
+     *
      * @return void
      */
-    public function __construct(Application $app, AjaxRouter $router)
+    public function __construct(Application $app, AjaxRouter $ajaxRouter, RestRouter $restRouter)
     {
         $this->app = $app;
-        $this->router = $router;
+        $this->routers = [$ajaxRouter, $restRouter];
 
-        $this->syncMiddlewareToRouter();
+        $this->syncMiddlewareToRouters();
     }
 
     /**
@@ -91,7 +95,7 @@ class Kernel
      *
      * @return void
      */
-    public function bootstrap()
+    public function bootstrap(): void
     {
         if (!$this->app->hasBeenBootstrapped()) {
             $this->app->bootstrapWith($this->bootstrappers());
@@ -103,16 +107,30 @@ class Kernel
      *
      * @return void
      */
-    protected function syncMiddlewareToRouter()
+    protected function syncMiddlewareToRouters(): void
     {
-        $this->router->middlewarePriority = $this->middlewarePriority;
+        foreach ($this->routers as $router) {
+            $this->syncMiddlewareToRouter($router);
+        }
+    }
+
+    /**
+     * Sync the current state of the middleware to the router.
+     *
+     * @param \Illuminate\Routing\Router $router
+     *
+     * @return void
+     */
+    protected function syncMiddlewareToRouter(Router $router): void
+    {
+        $router->middlewarePriority = $this->middlewarePriority;
 
         foreach ($this->middlewareGroups as $key => $middleware) {
-            $this->router->middlewareGroup($key, $middleware);
+            $router->middlewareGroup($key, $middleware);
         }
 
         foreach ($this->routeMiddleware as $key => $middleware) {
-            $this->router->aliasMiddleware($key, $middleware);
+            $router->aliasMiddleware($key, $middleware);
         }
     }
 
@@ -121,7 +139,7 @@ class Kernel
      *
      * @return array
      */
-    protected function bootstrappers()
+    protected function bootstrappers(): array
     {
         return $this->bootstrappers;
     }
@@ -131,7 +149,7 @@ class Kernel
      *
      * @return array
      */
-    public function getMiddlewareGroups()
+    public function getMiddlewareGroups(): array
     {
         return $this->middlewareGroups;
     }
@@ -141,7 +159,7 @@ class Kernel
      *
      * @return array
      */
-    public function getRouteMiddleware()
+    public function getRouteMiddleware(): array
     {
         return $this->routeMiddleware;
     }
@@ -151,7 +169,7 @@ class Kernel
      *
      * @return \Illuminate\Contracts\Foundation\Application
      */
-    public function getApplication()
+    public function getApplication(): Application
     {
         return $this->app;
     }

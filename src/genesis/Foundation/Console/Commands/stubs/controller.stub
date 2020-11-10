@@ -3,7 +3,7 @@
 namespace {{ namespace }};
 
 use Genesis\Http\Request;
-use Genesis\Routing\Controller;
+use Illuminate\Routing\Controller;
 
 class {{ class }} extends Controller
 {

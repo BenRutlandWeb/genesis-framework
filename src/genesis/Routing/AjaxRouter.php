@@ -2,9 +2,7 @@
 
 namespace Genesis\Routing;
 
-use Genesis\Http\Request;
 use Genesis\Routing\AjaxRoute;
-use Illuminate\Routing\Pipeline;
 use Illuminate\Routing\Router;
 
 class AjaxRouter extends Router
@@ -76,12 +74,12 @@ class AjaxRouter extends Router
     {
         if (in_array('AUTH', $route->methods)) {
             $this->events->listen("wp_ajax_{$route->uri}", function () use ($route) {
-                die($this->runAjaxRouteWithinStack($route, $this->container['request']));
+                $this->sendResponse($route);
             });
         }
         if (in_array('GUEST', $route->methods)) {
             $this->events->listen("wp_ajax_nopriv_{$route->uri}", function () use ($route) {
-                die($this->runAjaxRouteWithinStack($route, $this->container['request']));
+                $this->sendResponse($route);
             });
         }
 
@@ -89,25 +87,26 @@ class AjaxRouter extends Router
     }
 
     /**
-     * Run the given route within a Stack "onion" instance.
+     * Send the response to the AJAX handler
      *
-     * @param  \Genesis\Routing\AjaxRoute  $route
-     * @param  \Genesis\Http\Request  $request
+     * @param \Genesis\Routing\AjaxRoute $route
      *
-     * @return mixed
+     * @return void
      */
-    protected function runAjaxRouteWithinStack(AjaxRoute $route, Request $request)
+    protected function sendResponse(AjaxRoute $route): void
     {
-        $shouldSkipMiddleware = $this->container->bound('middleware.disable') &&
-            $this->container->make('middleware.disable') === true;
+        die($this->runRoute($this->container['request'], $route));
+    }
 
-        $middleware = $shouldSkipMiddleware ? [] : $this->gatherRouteMiddleware($route);
-
-        return (new Pipeline($this->container))
-            ->send($request)
-            ->through($middleware)
-            ->then(function ($request) use ($route) {
-                return $this->container->call($route->getController(), [$request]);
-            });
+    /**
+     * Create a response instance from the given value.
+     *
+     * @param  \Symfony\Component\HttpFoundation\Request  $request
+     * @param  mixed  $response
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function prepareResponse($request, $response)
+    {
+        return $response;
     }
 }
