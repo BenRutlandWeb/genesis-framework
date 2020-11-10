@@ -29,7 +29,7 @@ class VerifyCsrfToken
             $this->inExceptArray($request) ||
             $this->tokensMatch($request)
         ) {
-            return $next($request->merge(['csrf' => 'checked']));
+            return $next($request);
         }
         abort(403, 'CSRF token mismatch.');
     }
