@@ -2,117 +2,17 @@
 
 namespace Genesis\Routing;
 
-use Genesis\Foundation\Application;
-use Genesis\Routing\Router;
+use Illuminate\Routing\Route;
 
-class AjaxRoute
+class AjaxRoute extends Route
 {
     /**
-     * The ajax action
+     * Dispatch the route
      *
-     * @var string
+     * @return $this
      */
-    protected $action;
-
-    /**
-     * The route callback
-     *
-     * @var callable|string
-     */
-    protected $callback;
-
-    /**
-     * The router instance
-     *
-     * @var \Genesis\Routing\Router
-     */
-    protected $router;
-
-    /**
-     * The app instance
-     *
-     * @var \Genesis\Foundation\Application
-     */
-    protected $app;
-
-    /**
-     * Create the route instance
-     *
-     * @param string                  $action   The ajax action to lsiten for
-     * @param callble|string          $callback The callback to run
-     * @param \Genesis\Routing\Router $router   The router instance
-     *
-     * @return void
-     */
-    public function __construct(string $action, $callback, Router $router, Application $app)
+    public function dispatch()
     {
-        $this->action = $action;
-        $this->callback = $callback;
-        $this->router = $router;
-        $this->app = $app;
-
-        $this->register();
-    }
-
-    /**
-     * Check the user auth and create the ajax actions
-     *
-     * @return void
-     */
-    public function register(): void
-    {
-        $guest = $this->router->hasMiddleware('guest');
-        $auth = $this->router->hasMiddleware('auth');
-        $noMiddleware = !$guest && !$auth;
-
-        if ($guest || $noMiddleware) {
-            $this->addGuestAction();
-        }
-        if ($auth || $noMiddleware) {
-            $this->addAuthAction();
-        }
-    }
-
-    /**
-     * Add the guest ajax action
-     *
-     * @return void
-     */
-    public function addGuestAction(): void
-    {
-        $this->app['events']->listen("wp_ajax_nopriv_{$this->resolveURL()}", [$this, 'handle']);
-    }
-
-    /**
-     * Add the auth ajax action
-     *
-     * @return void
-     */
-    public function addAuthAction(): void
-    {
-        $this->app['events']->listen("wp_ajax_{$this->resolveURL()}", [$this, 'handle']);
-    }
-
-    /**
-     * Resolve the route URL
-     *
-     * @return string
-     */
-    protected function resolveURL(): string
-    {
-        return $this->router->getPrefix($this->action, '_');
-    }
-
-    /**
-     * Handle the route call
-     *
-     * @return void
-     */
-    public function handle(): void
-    {
-        if (!app('csrf')->verify()) {
-            die(http_response_code(403));
-        }
-        die($this->app->call($this->callback));
+        return $this->router->dispatchAjaxRoute($this);
     }
 }

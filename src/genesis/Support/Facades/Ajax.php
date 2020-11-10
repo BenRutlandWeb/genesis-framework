@@ -2,6 +2,7 @@
 
 namespace Genesis\Support\Facades;
 
+use Genesis\Routing\AjaxRouter;
 use Illuminate\Support\Facades\Facade;
 
 class Ajax extends Facade
@@ -13,6 +14,6 @@ class Ajax extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return 'router.ajax';
+        return AjaxRouter::class;
     }
 }

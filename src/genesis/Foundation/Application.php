@@ -4,6 +4,7 @@ namespace Genesis\Foundation;
 
 use Closure;
 use Genesis\Events\EventServiceProvider;
+use Genesis\Routing\RoutingServiceProvider;
 use Genesis\Foundation\EnvironmentDetector;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
@@ -13,7 +14,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Application extends Container implements ApplicationContract
 {
@@ -144,20 +145,6 @@ class Application extends Container implements ApplicationContract
     protected $absoluteCachePathPrefixes = [DIRECTORY_SEPARATOR];
 
     /**
-     * The bootstrap classes for the application.
-     *
-     * @var array
-     */
-    protected $bootstrappers = [
-        #\Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables::class,
-        \Genesis\Foundation\Bootstrap\LoadConfiguration::class,
-        #\Illuminate\Foundation\Bootstrap\HandleExceptions::class,
-        \Genesis\Foundation\Bootstrap\RegisterFacades::class,
-        \Genesis\Foundation\Bootstrap\RegisterProviders::class,
-        \Genesis\Foundation\Bootstrap\BootProviders::class,
-    ];
-
-    /**
      * Create a new Illuminate application instance.
      *
      * @param  string|null  $basePath
@@ -215,6 +202,7 @@ class Application extends Container implements ApplicationContract
     protected function registerBaseServiceProviders()
     {
         $this->register(new EventServiceProvider($this));
+        $this->register(new RoutingServiceProvider($this));
     }
 
     /**
@@ -918,28 +906,6 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Bootstrap the application for HTTP requests.
-     *
-     * @return void
-     */
-    public function bootstrap()
-    {
-        if (!$this->hasBeenBootstrapped()) {
-            $this->bootstrapWith($this->bootstrappers());
-        }
-    }
-
-    /**
-     * Get the bootstrap classes for the application.
-     *
-     * @return array
-     */
-    protected function bootstrappers()
-    {
-        return $this->bootstrappers;
-    }
-
-    /**
      * {@inheritdoc}
      */
     #public function handle(SymfonyRequest $request, int $type = self::MASTER_REQUEST, bool $catch = true)
@@ -1246,7 +1212,7 @@ class Application extends Container implements ApplicationContract
             #'translator'           => [\Illuminate\Translation\Translator::class, \Illuminate\Contracts\Translation\Translator::class],
             #'log'                  => [\Illuminate\Log\LogManager::class, \Psr\Log\LoggerInterface::class],
             #'mail.manager'         => [\Illuminate\Mail\MailManager::class, \Illuminate\Contracts\Mail\Factory::class],
-            #'mailer'               => [\Illuminate\Mail\Mailer::class, \Illuminate\Contracts\Mail\Mailer::class, \Illuminate\Contracts\Mail\MailQueue::class],
+            'mailer'               => [\Genesis\Mail\Mailer::class],
             #'auth.password'        => [\Illuminate\Auth\Passwords\PasswordBrokerManager::class, \Illuminate\Contracts\Auth\PasswordBrokerFactory::class],
             #'auth.password.broker' => [\Illuminate\Auth\Passwords\PasswordBroker::class, \Illuminate\Contracts\Auth\PasswordBroker::class],
             #'queue'                => [\Illuminate\Queue\QueueManager::class, \Illuminate\Contracts\Queue\Factory::class, \Illuminate\Contracts\Queue\Monitor::class],
