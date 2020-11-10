@@ -12,6 +12,7 @@
     "illuminate/container": "^8.6",
     "illuminate/database": "^8.7",
     "illuminate/http": "^8.13",
+    "illuminate/routing": "^8.13",
     "illuminate/support": "^8.6",
     "illuminate/view": "^8.13",
     "staudenmeir/eloquent-has-many-deep": "^1.13",
