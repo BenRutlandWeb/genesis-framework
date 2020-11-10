@@ -4,7 +4,6 @@ namespace Genesis\Http;
 
 use Genesis\Http\Request;
 use Genesis\Http\Response;
-use Genesis\Http\VerifyCsrfToken;
 use Illuminate\Support\ServiceProvider;
 
 class HttpServiceProvider extends ServiceProvider
@@ -22,10 +21,6 @@ class HttpServiceProvider extends ServiceProvider
 
         $this->app->singleton('response', function () {
             return new Response();
-        });
-
-        $this->app->singleton('csrf', function ($app) {
-            return new VerifyCsrfToken($app['request']);
         });
     }
 }
