@@ -7,6 +7,13 @@ use Genesis\Http\Request;
 use Genesis\Http\Response;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 
+if (!function_exists('abort')) {
+    function abort(int $code, string $description = '')
+    {
+        return status_header($code, $description);
+    }
+}
+
 if (!function_exists('ajax')) {
     /**
      * Return the ajax URL with the action
