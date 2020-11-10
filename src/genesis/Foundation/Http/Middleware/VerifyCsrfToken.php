@@ -57,7 +57,11 @@ class VerifyCsrfToken
                 $except = trim($except, '/');
             }
 
-            if ($except === $request->input('action')) {
+            if (
+                $except === $request->input('action') ||
+                $request->fullUrlIs($except) ||
+                $request->is($except)
+            ) {
                 return true;
             }
         }
