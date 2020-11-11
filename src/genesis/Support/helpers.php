@@ -10,7 +10,7 @@ use Illuminate\Contracts\View\Factory as ViewFactory;
 if (!function_exists('abort')) {
     function abort(int $code, string $description = '')
     {
-        return status_header($code, $description);
+        die(status_header($code, $description));
     }
 }
 
