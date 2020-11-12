@@ -3,6 +3,7 @@
 namespace Genesis\Mail;
 
 use Illuminate\Support\ServiceProvider;
+use Parsedown as Markdown;
 
 class MailServiceProvider extends ServiceProvider
 {
@@ -15,6 +16,10 @@ class MailServiceProvider extends ServiceProvider
     {
         $this->app->singleton('mailer', function () {
             return new Mailer;
+        });
+
+        $this->app->singleton('markdown', function ($app) {
+            return new Markdown();
         });
     }
 }

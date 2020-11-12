@@ -6,7 +6,9 @@ use Closure;
 use ReflectionClass;
 use ReflectionProperty;
 use Genesis\Database\Models\User;
+use Genesis\Support\Facades\Event;
 use Illuminate\Support\Collection;
+use PHPMailer\PHPMailer\PHPMailer;
 use WP_User;
 
 /**
@@ -36,11 +38,18 @@ abstract class Mailable
     protected $subject = '';
 
     /**
-     * The email body
+     * The email html body
      *
      * @var string
      */
-    protected $message = '';
+    protected $html = '';
+
+    /**
+     * The email plain text body
+     *
+     * @var string
+     */
+    protected $plainText = '';
 
     /**
      * The headers to send with the email
@@ -61,7 +70,7 @@ abstract class Mailable
      *
      * @param mixed $user The user or email address
      *
-     * @return Genesis\Support\Mail\Mailable
+     * @return \Genesis\Support\Mail\Mailable
      */
     public function to($addresses): Mailable
     {
@@ -77,7 +86,7 @@ abstract class Mailable
      *
      * @param mixed $user The user or email address
      *
-     * @return Genesis\Support\Mail\Mailable
+     * @return \Genesis\Support\Mail\Mailable
      */
     public function cc($addresses): Mailable
     {
@@ -91,7 +100,7 @@ abstract class Mailable
      *
      * @param mixed $user The user or email address
      *
-     * @return Genesis\Support\Mail\Mailable
+     * @return \Genesis\Support\Mail\Mailable
      */
     public function bcc($addresses): Mailable
     {
@@ -105,7 +114,7 @@ abstract class Mailable
      *
      * @param mixed $user The user or email address
      *
-     * @return Genesis\Support\Mail\Mailable
+     * @return \Genesis\Support\Mail\Mailable
      */
     public function from($address): Mailable
     {
@@ -131,13 +140,14 @@ abstract class Mailable
     /**
      * Set the email message
      *
-     * @param string $message The email message
+     * @param string $path The view path
+     * @param array  $data The view data
      *
-     * @return Genesis\Support\Mail\Mailable
+     * @return \Genesis\Support\Mail\Mailable
      */
-    public function message(string $message): Mailable
+    public function text(string $path, array $data = []): Mailable
     {
-        $this->message = $message;
+        $this->plainText = (string) view($path, $this->buildViewData($data));
 
         return $this;
     }
@@ -148,13 +158,28 @@ abstract class Mailable
      * @param string $path The view path
      * @param array  $data The view data
      *
-     * @return Genesis\Support\Mail\Mailable
+     * @return \Genesis\Support\Mail\Mailable
      */
     public function view(string $path, array $data = []): Mailable
     {
-        $this->header('Content-Type: text/html; charset=UTF-8');
+        $this->html = (string) view($path, $this->buildViewData($data));
 
-        $this->message = (string) view($path, $this->buildViewData($data));
+        return $this;
+    }
+
+    /**
+     * Set the email message with a markdown view
+     *
+     * @param string $path The view path
+     * @param array  $data The view data
+     *
+     * @return \Genesis\Support\Mail\Mailable
+     */
+    public function markdown(string $path, array $data = []): Mailable
+    {
+        $this->text($path, $data);
+
+        $this->html = app('markdown')->text($this->plainText);
 
         return $this;
     }
@@ -241,7 +266,7 @@ abstract class Mailable
      *
      * @param string $header The header to set
      *
-     * @return Genesis\Support\Mail\Mailable
+     * @return \Genesis\Support\Mail\Mailable
      */
     public function header(string $header): Mailable
     {
@@ -255,7 +280,7 @@ abstract class Mailable
      *
      * @param array $headers The headers to set
      *
-     * @return Genesis\Support\Mail\Mailable
+     * @return \Genesis\Support\Mail\Mailable
      */
     public function headers(array $headers): Mailable
     {
@@ -271,7 +296,7 @@ abstract class Mailable
      *
      * @param string $filepath The attachment filepath
      *
-     * @return Genesis\Support\Mail\Mailable
+     * @return \Genesis\Support\Mail\Mailable
      */
     public function attachment(string $filepath): Mailable
     {
@@ -285,7 +310,7 @@ abstract class Mailable
      *
      * @param array $filepaths The attachment filepaths
      *
-     * @return Genesis\Support\Mail\Mailable
+     * @return \Genesis\Support\Mail\Mailable
      */
     public function attachments(array $filepaths): Mailable
     {
@@ -299,11 +324,29 @@ abstract class Mailable
     /**
      * Build the email
      *
-     * @return Genesis\Support\Mail\Mailable
+     * @return \Genesis\Support\Mail\Mailable
      */
     public function build(): Mailable
     {
         return $this;
+    }
+
+    /**
+     * Get the message body
+     *
+     * @return string
+     */
+    protected function message(): string
+    {
+        if ($this->html) {
+            Event::listen('phpmailer_init', function (PHPMailer $mailer) {
+                $mailer->AltBody = $this->plainText;
+            });
+            $this->header('Content-Type: text/html; charset=UTF-8');
+
+            return view('emails.message', ['slot' => $this->html]);
+        }
+        return $this->plainText;
     }
 
     /**
@@ -316,7 +359,7 @@ abstract class Mailable
         return wp_mail(
             $this->to,
             $this->subject,
-            $this->message,
+            $this->message(),
             $this->headers,
             $this->attachments
         );
@@ -331,7 +374,7 @@ abstract class Mailable
     {
         $this->build();
 
-        return $this->message;
+        return $this->html;
     }
 
     /**
