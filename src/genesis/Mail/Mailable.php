@@ -340,7 +340,7 @@ abstract class Mailable
     {
         if ($this->html) {
             Event::listen('phpmailer_init', function (PHPMailer $mailer) {
-                $mailer->AltBody = $this->plainText;
+                $mailer->AltBody = strip_tags($this->plainText);
             });
             $this->header('Content-Type: text/html; charset=UTF-8');
 
