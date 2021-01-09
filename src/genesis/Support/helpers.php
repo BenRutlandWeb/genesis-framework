@@ -309,6 +309,8 @@ if (!function_exists('url')) {
     /**
      * Return the url instance.
      *
+     * @param string $path
+     *
      * @return \Genesis\Routing\URL|string
      */
     function url(string $path = '')
