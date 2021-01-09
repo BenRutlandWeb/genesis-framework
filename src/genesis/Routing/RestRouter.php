@@ -39,6 +39,7 @@ class RestRouter extends Router
             'callback' => function (WP_REST_Request $request) use ($route) {
                 $this->sendResponse($route->bindRestParameters($request, $this->container['request']));
             },
+            'permission_callback' => '__return_true',
         ]);
 
         return $route;
